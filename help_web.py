@@ -33,8 +33,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def lookup(symbol):
-    """Look up quote for symbol."""
+def lookup():
 
     # Contact API
     try:
