@@ -66,3 +66,5 @@ door dit te doen kunnen we op button press checken of het antwoord goed of fout 
 5. Tijdens het beantwoorden moet een score worden bijgehouden
 4. Na het afmaken van een quiz moeten gebruikers kunnen zien hoe ze presteren t.o.v. ander gebruikers d.m.v. een leaderboard.
 5. Een leraar moet een tabel kunnen zien waar de quiz uitgelicht staat en daarna kunnen zien of een vak in het algemeen goed of slecht is gemaakt.
+
+![Website pagina voorstel](/Images/pagina_voorstel.jpeg)
