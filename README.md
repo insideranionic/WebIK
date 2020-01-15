@@ -32,6 +32,10 @@ BootStrap is een framework wat ons in staat stelt om snel en simpel een website 
 Het Framework biedt veel manieren om een pagina snel en professioneel op te maken.
 Voornamelijk is het framework handig om een standaard lay-out te maken voor elke pagina
 
+#### Foundation Framework
+Foundation framework is een handig framework waar wij gebruik van kunnen maken om onze lay-out te creëeren.
+[Foundation Framework](https://foundation.zurb.com/)
+
 ### Concurrende bestaande websites
 Een welbekende trivia website is zonder twijfel kahoot.
 Het interessante aan kahoot is het feit dat iedereen tegelijk dezelfde vragenlijst kan maken.
