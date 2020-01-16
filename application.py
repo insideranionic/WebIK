@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from help_web import apology, login_required, lookup
+from help_web import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -92,7 +92,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return apology("TODO")
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -138,7 +138,7 @@ def register():
         return redirect("/")
 
     else:
-        return apology("TODO")
+        return render_template("register.html")
 
 def errorhandler(e):
     """Handle error"""
