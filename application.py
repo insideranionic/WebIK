@@ -127,8 +127,19 @@ def register():
 
         password = generate_password_hash(request.form.get("password"))
         username = request.form.get("username")
+        role = request.form.get("role")
 
-        result = db.execute("INSERT INTO users(username,hash) VALUES(:username,:password)", username=username, password=password)
+        # Insert teachers into teacher database...
+        if role == "teacher":
+            result = db.execute("INSERT INTO Teacher(username,hash) VALUES(:username,:password)", username=username, password=password)
+
+        # ...and insert students into student database
+        elif role == "student":
+            result = db.execute("INSERT INTO student(username,hash) VALUES(:username,:password)", username=username, password=password)
+
+        # Ensure user selects either teacher or student
+        else:
+            return apology("You must choose a role", 400)
 
         if not result:
             return apology("username taken", 400)
