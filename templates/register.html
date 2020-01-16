@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/register" method="post" onsubmit="fucntion(event){ event.preventDefault();}">
+    <form action="/register" method="post" onsubmit="function(event){ event.preventDefault();}">
+        <div class="form-group">
+            <select class="form-control" value="role">
+                <option disabled selected value="role">Role</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+            </select>
+        </div>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
         </div>
