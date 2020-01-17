@@ -55,12 +55,7 @@ def check():
 
         # Get username and list of taken names
         username = request.args.get("username")
-
-        # Check whether user is teacher
-        if session.get("key") == "teacher":
-            taken_names = db.execute("Select username FROM Teacher")
-        else:
-            taken_names = db.execute("Select username FROM student")
+        taken_names = db.execute("Select username FROM users")
 
         # Check if username field is empty
         if len(str(username)) <= 0:
