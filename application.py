@@ -207,7 +207,7 @@ def change_password():
             password = db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=session["user_id"])
         else:
             # Get password currently being used
-            password = db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=session["user_id"])
+            password = db.execute("SELECT hash FROM student WHERE id = :user_id", user_id=session["user_id"])
 
         # Ensure current password is correct
         if not check_password_hash(password[0]["hash"], request.form.get("current_password")):
