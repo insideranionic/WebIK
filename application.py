@@ -275,6 +275,18 @@ def result():
     else:
         return render_template("result.html")
 
+@app.route("/leaderboard")
+def leaderboard():
+    """Shows user leaderboard"""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("leaderboard.html")
+
 
 # Listen for errors
 for code in default_exceptions:
