@@ -177,6 +177,12 @@ def register():
     else:
         return render_template("register.html")
 
+# return results of student
+@app.route("/leader", methods=["GET", "POST"])
+def result():
+    result_sql = db.execute("SELECT username, result, room_name, quiz_name, category, date FROM student_results where student_id = 1" )
+    print(result)
+
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
