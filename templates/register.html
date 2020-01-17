@@ -7,7 +7,7 @@
 {% block main %}
     <form action="/register" method="post" onsubmit="function(event){ event.preventDefault();}">
         <div class="form-group">
-            <select class="form-control" value="role">
+            <select class="form-control" name="role">
                 <option disabled selected value="role">Role</option>
                         <option value="teacher">Teacher</option>
                         <option value="student">Student</option>
