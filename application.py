@@ -37,10 +37,10 @@ db = SQL("sqlite:///database.db")
 def index():
 
      # Get user's key
-    session_role = session.get('key')
+    session_role = session.get("key")
 
-    # Render teacher temlate if user is a teacher
-    if session_role == 'teacher':
+    # Render teacher template if user is a teacher
+    if session_role == "teacher":
         return render_template("teacher_index.html")
 
     # Render student template if user is not a teacher
@@ -55,13 +55,18 @@ def check():
 
         # Get username and list of taken names
         username = request.args.get("username")
-        taken_names = db.execute("Select username FROM users")
+
+        # Check whether user is teacher
+        if session.get("key") == "teacher":
+            taken_names = db.execute("Select username FROM Teacher")
+        else:
+            taken_names = db.execute("Select username FROM student")
 
         # Check if username field is empty
         if len(str(username)) <= 0:
             return jsonify(False)
 
-        # check for every name in taken names if username matches one of taken names
+        # Check for every name in taken names if username matches one of taken names
         for taken_name in taken_names:
             if username == taken_name["username"]:
                 return jsonify(False)
@@ -87,9 +92,15 @@ def login():
         elif not request.form.get("password"):
             return apology("must provide password", 403)
 
-        # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username",
-                          username=request.form.get("username"))
+        # Check if user is registered as a teacher
+        if session.get("key") == "teacher":
+            # Query database for teacher username
+            rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
+                              username=request.form.get("username"))
+        else:
+            # Query database for student username
+            rows = db.execute("SELECT * FROM student WHERE username = :username",
+                              username=request.form.get("username"))
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
@@ -145,14 +156,14 @@ def register():
             result = db.execute("INSERT INTO Teacher(username, hash) VALUES(:username, :password)", username=username, password=password)
 
             # Set session key to 'teacher'
-            session['key'] = 'teacher'
+            session["key"] = "teacher"
 
         # ...and insert students into student database
         elif role == "student":
             result = db.execute("INSERT INTO student(username, hash) VALUES(:username, :password)", username=username, password=password)
 
             # Set session key to 'student'
-            session['key'] = 'student'
+            session["key"] = "student"
 
         # Ensure user selects either teacher or student
         else:
