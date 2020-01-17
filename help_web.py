@@ -33,26 +33,5 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def lookup():
 
-    # Contact API
-    try:
-        main_api= “https://opentdb.com/api.php?”
-        url= main_api + urlib.parse.urlencode({‘amount’: aantal_vragen}) + “&” + urlib.parse.urlencode({‘category’: categorie}) + “&” +  urlib.parse.urlencode({‘difficulty’: diff} + “&” + urlib.parse.urlencode({‘type’: type}
-        api_data= request.get(url).json()[“results”]
-        api_data.raise_for_status()
-
-    except requests.RequestException:
-        return None
-
-    # Parse response
-    try:
-        quote = api_data.json()
-        return {
-            "amount_questions": quote["amount"],
-            "category": (quote["category"]),
-            "diff": quote["difficulty"]
-        }
-    except (KeyError, TypeError, ValueError):
-        return None
 

@@ -5,23 +5,54 @@
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="style_home.css">
-    </head>
-
         <title> Fakta: {% block title %}{% endblock %}</title>
-
+        <title>Facta: {% block title %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-
     <body>
+        <div class="navbar">
+            <div class="dropdown">
+                <button class="dropbtn">login</button>
+                <div class="dropdown-content">
+                    <a href="#">Teacher login</a>
+                    <a href="#">Student login</a>
+                </div>
+            </div>
+            <a href="#news">register</a>
+            <div class="right">
+                <a href="#home">Home</a>
+                <a href="#news">Room</a>
+                <a href="#news">Results</a>
+            </div>
+        </div>
+                {% if session.user_id %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/leaderboard">Leaderboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/change_password">Change Password</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
 
-      <ul class="nav">
-        <li class="nav-li"><a class="li-a" href="zuu.html">Room</a></li>
-        <li class="nav-li"><a class="li-a" href="ta13oo.html">Results</a></li>
-        <li class="nav-li"><a class="li-a" href="imperial.html">About</a></li>
-        <li class="nav-log"><a class="li-a" href="32-zel.html">Register</a></a></li>
-        <li class="nav-log"><a class="li-a" href="index.html">Login</a></li>
-      </ul>
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-primary border text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+
+        <main class="container p-5">
+            {% block main %}{% endblock %}
+        </main>
+>>>>>>> 89b800c0dc2c5bfdff4bf07104c15df15238f02e
 
 
     </body>
