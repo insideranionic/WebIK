@@ -55,14 +55,19 @@ def check():
 
         # Get username and list of taken names
         username = request.args.get("username")
-        taken_names = db.execute("Select username FROM users")
+        taken_names_teach = db.execute("Select username FROM Teachers")
+        taken_names_student = db.execute("Select username FROM student")
 
         # Check if username field is empty
         if len(str(username)) <= 0:
             return jsonify(False)
 
         # check for every name in taken names if username matches one of taken names
-        for taken_name in taken_names:
+        for taken_name in taken_names_teach:
+            if username == taken_name["username"]:
+                return jsonify(False)
+
+        for taken_name in taken_names_student:
             if username == taken_name["username"]:
                 return jsonify(False)
 
@@ -212,6 +217,21 @@ def change_password():
 
     else:
         return render_template("change_password.html")
+
+
+@app.route("/leaderboard", methods=["GET", "POST"])
+def leaderboard():
+    """shows user his scores"""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("leaderboard.html")
 
 
 # Listen for errors
