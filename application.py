@@ -253,11 +253,34 @@ def quiz():
         all_answers.append(question_single['correct_answer'])
         question_ans_dict[str(question_single['question'])] = possible_answers
 
-    # prints a dict with key the question and value the answers
-    print(question_ans_dict)
-    print('x')
-    # all right answers of the quiz
-    print(all_answers)
+    # key list makes it possible to get to questions via numbers
+    # so if a user wants to got to tanother question we can  add +1 or -1 to the current position
+    key_list = list(question_ans_dict.keys())
+
+    for x in range(len(key_list)):
+        question = key_list[x]
+        answer_list = question_ans_dict[str(question)]
+        answer_1 = random.choice(answer_list)
+
+        #  check if every answer in the multiple choice display is unique
+        answer_2 = random.choice(answer_list)
+        if answer_2 == answer_1:
+            answer_2 = random.choice(answer_list)
+            while answer_2 == answer_1:
+                answer_2 = random.choice(answer_list)
+
+        answer_3 = random.choice(answer_list)
+        if answer_3 == answer_1 or answer_3 == answer_2:
+            answer_3 = random.choice(answer_list)
+            while answer_3 == answer_1 or answer_3 == answer_2:
+                answer_3 = random.choice(answer_list)
+
+        answer_4 = random.choice(answer_list)
+        if answer_4 == answer_1 or answer_4== answer_2 or answer_4 == answer_3:
+            answer_4 = random.choice(answer_list)
+            while answer_4 == answer_1 or answer_4== answer_2 or answer_4 == answer_3:
+                answer_4 = random.choice(answer_list)
+
 
 @app.route("/leaderboard", methods=["GET", "POST"])
 def leaderboard():
