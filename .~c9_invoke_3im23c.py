@@ -35,12 +35,14 @@ db = SQL("sqlite:///database.db")
 @app.route("/")
 @login_required
 def index():
+     # Get user's id
+    user_id = session["user_id"]
 
-     # Get user's key
-    session_role = session.get('key')
+    # Check if user is teacher
+    teacher = db.execute("SELECT * FROM Teacher WHERE id = :user_id", user_id=user_id)
 
     # Render teacher temlate if user is a teacher
-    if session_role == 'teacher':
+    if user_id in teacher:
         return render_template("teacher_index.html")
 
     # Render student template if user is not a teacher
@@ -142,17 +144,11 @@ def register():
 
         # Insert teachers into teacher database...
         if role == "teacher":
-            result = db.execute("INSERT INTO Teacher(username, hash) VALUES(:username, :password)", username=username, password=password)
-
-            # Set session key to 'teacher'
-            session['key'] = 'teacher'
+            result = db.execute("INSERT INTO Teacher(username,hash) VALUES(:username,:password)", username=username, password=password)
 
         # ...and insert students into student database
         elif role == "student":
-            result = db.execute("INSERT INTO student(username, hash) VALUES(:username, :password)", username=username, password=password)
-
-            # Set session key to 'student'
-            session['key'] = 'student'
+            result = db.execute("INSERT INTO student(username,hash) VALUES(:username,:password)", username=username, password=password)
 
         # Ensure user selects either teacher or student
         else:
