@@ -57,7 +57,7 @@ def check():
         # Get username and list of taken names
         username = request.args.get("username")
         taken_names_teach = db.execute("Select username FROM Teachers")
-        taken_names_student = db.execute("Select username FROM student")
+        taken_names = taken_names_teach + db.execute("Select username FROM student")
 
         # Check if username field is empty
         if len(str(username)) <= 0:
@@ -65,10 +65,6 @@ def check():
 
         # check for every name in taken names if username matches one of taken names
         for taken_name in taken_names_teach:
-            if username == taken_name["username"]:
-                return jsonify(False)
-
-        for taken_name in taken_names_student:
             if username == taken_name["username"]:
                 return jsonify(False)
 
@@ -94,7 +90,8 @@ def login():
             return apology("must provide password", 403)
 
         # Check if user is registered as a teacher
-        if session.get("key") == "teacher":
+        sess_role = session.get("key")
+        if sess_role == "teacher":
             # Query database for teacher username
             rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
                               username=request.form.get("username"))
@@ -198,8 +195,13 @@ def change_password():
         if not request.form.get("current_password"):
             return apology("must provide current password", 400)
 
-        # Get password currently being used
-        password = db.execute("SELECT hash FROM users WHERE id = :user_id", user_id=session["user_id"])
+        sess_role = session.get("key")
+        if sess_role == 'teacher':
+            # Get password currently being used
+            password = db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=session["user_id"])
+        else:
+            # Get password currently being used
+            password = db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=session["user_id"])
 
         # Ensure current password is correct
         if not check_password_hash(password[0]["hash"], request.form.get("current_password")):
@@ -253,8 +255,8 @@ def quiz():
     # all right answers of the quiz
     print(all_answers)
 
-@app.route("/leaderboard", methods=["GET", "POST"])
-def leaderboard():
+@app.route("/result", methods=["GET", "POST"])
+def result():
     """shows user his scores"""
 
     # User reached route via POST (as by submitting a form via POST)
@@ -265,7 +267,7 @@ def leaderboard():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("leaderboard.html")
+        return render_template("result.html")
 
 
 # Listen for errors
