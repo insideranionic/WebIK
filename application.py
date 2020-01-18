@@ -178,10 +178,10 @@ def register():
         return render_template("register.html")
 
 # return results of student
-@app.route("/leader", methods=["GET", "POST"])
+@app.route("/result", methods=["GET", "POST"])
 def result():
-    result_sql = db.execute("SELECT username, result, room_name, quiz_name, category, date FROM student_results where student_id = 1" )
-    print(result)
+    #result_sql = db.execute("SELECT username, result, room_name, quiz_name, category, date FROM student_results where student_id = 1" )
+    return render_template("result.html")
 
 def errorhandler(e):
     """Handle error"""
@@ -282,21 +282,9 @@ def quiz():
             answer_4 = random.choice(answer_list)
             while answer_4 == answer_1 or answer_4== answer_2 or answer_4 == answer_3:
                 answer_4 = random.choice(answer_list)
+    return apology("TODO")
 
 
-@app.route("/result", methods=["GET", "POST"])
-def result():
-    """shows user his scores"""
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Redirect user to home page
-        return redirect("/")
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("result.html")
 
 @app.route("/leaderboard")
 def leaderboard():
