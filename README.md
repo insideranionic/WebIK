@@ -69,7 +69,7 @@ door dit te doen kunnen we op button press checken of het antwoord goed of fout 
 
 ## Website pagina voorstel
 
-![Website pagina voorstel](/html/Images/pagina_voorstel.jpeg)
+![Website pagina voorstel](/html/pagina_voorstel.jpeg)
 
 ![Website pagina voorstel](/html/Images/pagina_voorstel/login.jpeg)
 
