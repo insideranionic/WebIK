@@ -69,20 +69,20 @@ door dit te doen kunnen we op button press checken of het antwoord goed of fout 
 
 ## Website pagina voorstel
 
-![Website pagina voorstel](/Images/pagina_voorstel.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/login.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/login.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/home.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/home.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/register.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/register.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/room.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/room.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/find_room.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/find_room.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/leaderboard.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/leaderboard.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/result.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/result.jpeg)
 
-![Website pagina voorstel](/Images/pagina_voorstel/finish.jpeg)
+![Website pagina voorstel](/html/Images/pagina_voorstel/finish.jpeg)
