@@ -34,7 +34,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
 
@@ -43,7 +43,26 @@ def index():
 
     # Render teacher template if user is a teacher
     if session_role == "teacher":
-        return render_template("teacher_index.html")
+        if request.method == "POST":
+
+            # Get desired amount of questions for new quiz
+            amount = request.form.get("questions")
+
+            # Get desired difficulty
+            difficulty = request.form.get("difficulty")
+
+            # Get desired category
+            category = request.form.get("category")
+
+            # Get type of quiz (default = multiple choice)
+            type_q = request.form.get("type")
+
+            # Add data to database
+            new_quiz = db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type) VALUES (:amount, :difficulty, :category, :type_q)",
+                                  amount=amount, difficulty=difficulty, category=category, type_q=type_q)
+            return redirect("/")
+        else:
+            return render_template("teacher_index.html")
 
     # Render student template if user is not a teacher
     else:
