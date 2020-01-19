@@ -7,5 +7,31 @@
 {% block main %}
 
 Hallo ik ben een leraar
+    <p> Maak een quiz aan</p>
+
+    <form action="/index" method="post">
+        <div class="form-group">
+            <input class="form-control" name="questions" placeholder="Amount of questions" type="number" min="1" max="50">
+        </div>
+
+    <form action="/index" method="post" onsubmit="function(event){ event.preventDefault();}">
+        <div class="form-group">
+            <select class="form-control" name="difficulty">
+                <option disabled selected value="difficulty">Difficulty</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+            </select>
+        </div>
+
+    <form action="/index" method="post" onsubmit="function(event){ event.preventDefault();}">
+        <div class="form-group">
+            <select class="form-control" name="category">
+                <option disabled selected value="category">Category</option>
+                        <option value="teacher">Dit moeten we ff fixen met zo'n jinja forloop</option>
+            </select>
+        </div>
+            <button class="btn btn-primary" type="submit">Create quiz</button>
+    </form>
 
 {% endblock %}
