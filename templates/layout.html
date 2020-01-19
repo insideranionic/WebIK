@@ -11,37 +11,34 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div class="navbar">
-            <div class="dropdown">
-                <button class="dropbtn">login</button>
-                <div class="dropdown-content">
-                    <a href="#">Teacher login</a>
-                    <a href="#">Student login</a>
+        {% if session.user_id %}
+            <div class="navbar">
+                <div class="dropdown">
+                    <button class="dropbtn">login</button>
+                    <div class="dropdown-content">
+                        <a href="login.html">Teacher login</a>
+                        <a href="login.html">Student login</a>
+                    </div>
+                </div>
+                <a href="register.html">register</a>
+                <div class="right">
+                    <a href="index.html">Home</a>
+                    <a href="room.html">Room</a>
+                    <a href="results.html">Results</a>
                 </div>
             </div>
-            <a href="#news">register</a>
-            <div class="right">
-                <a href="#home">Home</a>
-                <a href="#news">Room</a>
-                <a href="#news">Results</a>
+        {% else %}
+            <div class="navbar">
+                <a href="" >logout</a>
+
+                <div class="right">
+                    <a href="index.html">Home</a>
+                    <a href="room.html">Room</a>
+                    <a href="results.html">Results</a>
+                </div>
             </div>
-        </div>
-                {% if session.user_id %}
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/result">Result</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/change_password">Change Password</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/room">Room</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/quiz">Quiz</a></li>
-                    </ul>
-                {% endif %}
-            </div>
-        </nav>
+        {% endif %}
+
 
         {% if get_flashed_messages() %}
             <header>
