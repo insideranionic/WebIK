@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    room
+{% endblock %}
+
+{% block main %}
+    <form action="/room" method="GET">
+        {% for quizes in room_quizes %}
+          <li><a href="/quiz">{{ quizes}}</a></li>
+        {% endfor %}
+    </form>
+{% endblock %}

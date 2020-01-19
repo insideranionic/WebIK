@@ -307,6 +307,14 @@ def quiz():
     else:
         return render_template("quiz.html")
 
+@app.route("/room", methods=["GET", "POST"])
+def room():
+    # get all the rooms out of a database that user is in
+        # make a table with
+    room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher ='rzff')
+    quizes = [categories["categories"] for categories in room_categories]
+
+    return render_template("room.html", room_quizes = quizes)
 
 
 @app.route("/leaderboard")
