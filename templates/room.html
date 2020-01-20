@@ -7,7 +7,7 @@
 {% block main %}
     <form action="/room" method="GET">
         {% for quizes in room_quizes %}
-          <button><a href="quiz">{{quizes}}</a></li>
+         <a class="room" href="quiz">{{quizes}}</a>
         {% endfor %}
     </form>
 {% endblock %}
