@@ -259,44 +259,70 @@ def change_password():
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
 
-    # # hoe komen we aan de naam van de quiz bij name= "naam"????
-    # catte= db.execute("SELECT category FROM new_quizes WHERE name = :name", name=naam)
-    # diffi = db.execute("SELECT difficulty FROM new_quizes WHERE name = :name", name=naam)
-    # aantal_vragen= db.execute("SELECT amount_of_questions FROM new_quizes WHERE name = :name", name=naam)
-    # Type= db.execute("SELECT type FROM new_quizes WHERE name = :name", name=naam)
+    # hoe komen we aan de naam van de quiz bij name= "naam"????
+    catte= db.execute("SELECT category FROM new_quizes WHERE name = :name", name=naam)
+    diffi = db.execute("SELECT difficulty FROM new_quizes WHERE name = :name", name=naam)
+    aantal_vragen= db.execute("SELECT amount_of_questions FROM new_quizes WHERE name = :name", name=naam)
+    Type= db.execute("SELECT type FROM new_quizes WHERE name = :name", name=naam)
 
-    # category_dict= {"History": 23, "Politics": 24, "Geography": 22}
-    # difficulty_dict= {"Easy": "easy", "Medium": "medium", "Hard": "hard"}
-    # cat= category_dict[catte]
-    # diff= difficulty_dict[diffi]
+    category_dict= {"History": 23, "Politics": 24, "Geography": 22}
+    difficulty_dict= {"Easy": "easy", "Medium": "medium", "Hard": "hard"}
+    cat= category_dict[catte]
+    diff= difficulty_dict[diffi]
 
     if request.method == "GET":
         quiz = {"response_code":0,"results":[{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the largest city and commercial capital of Sri Lanka?","correct_answer":"Colombo","incorrect_answers":["Moratuwa","Negombo","Kandy"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of these countries is NOT a part of the Asian continent?","correct_answer":"Suriname","incorrect_answers":["Georgia","Russia","Singapore"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which country is completely landlocked by South Africa?","correct_answer":"Lesotho","incorrect_answers":["Swaziland","Botswana","Zimbabwe"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of these is NOT a province in China?","correct_answer":"Yangtze","incorrect_answers":["Fujian","Sichuan","Guangdong"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"The mountainous Khyber Pass connects which of the two following countries?","correct_answer":"Afghanistan and Pakistan","incorrect_answers":["India and Nepal","Pakistan and India","Tajikistan and Kyrgyzstan"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the name of one of the Neo-Aramaic languages spoken by the Jewish population from Northwestern Iraq?","correct_answer":"Lishana Deni","incorrect_answers":["Hulaul&aacute;","Lishan Didan","Chaldean Neo-Aramaic"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of the following Inuit languages was the FIRST to use a unique writing system not based on the Latin alphabet?","correct_answer":"Inuktitut","incorrect_answers":["Inuinnaqtun","Greenlandic","Inupiat"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Where is the Luxor Hotel &amp; Casino located?","correct_answer":"Paradise, Nevada","incorrect_answers":["Las Vegas, Nevada","Winchester, Nevada","Jackpot, Nevada"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What year is on the flag of the US state Wisconsin?","correct_answer":"1848","incorrect_answers":["1634","1783","1901"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"How many countries border Kyrgyzstan?","correct_answer":"4","incorrect_answers":["3","1","6"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Llanfair&shy;pwllgwyngyll&shy;gogery&shy;chwyrn&shy;drobwll&shy;llan&shy;tysilio&shy;gogo&shy;goch is located on which Welsh island?","correct_answer":"Anglesey","incorrect_answers":["Barry","Bardsey","Caldey"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"The Hunua Ranges is located in...","correct_answer":"New Zealand","incorrect_answers":["Nepal","China","Mexico"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Fucking is a village in which country?","correct_answer":"Austria","incorrect_answers":["Germany","Switzerland","Czech Republic"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the name of the Canadian national anthem?","correct_answer":"O Canada","incorrect_answers":["O Red Maple","Leaf-Spangled Banner","March of the Puck Drop"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What North American tourist attraction is served by the &quot;Maid of the Mist&quot; tour company?","correct_answer":"Niagara Falls","incorrect_answers":["Whistler, British Columbia","Disney World","Yosemite National Park"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the name of rocky region that spans most of eastern Canada?","correct_answer":"Canadian Shield","incorrect_answers":["Rocky Mountains","Appalachian Mountains","Himalayas"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is Canada&#039;s largest island?","correct_answer":"Baffin Island","incorrect_answers":["Prince Edward Island","Vancouver Island","Newfoundland"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the name of the formerly rich fishing grounds off the island of Newfoundland, Canada?","correct_answer":"Grand Banks","incorrect_answers":["Great Barrier Reef","Mariana Trench","Hudson Bay"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"When does Finland celebrate their independence day?","correct_answer":"December 6th","incorrect_answers":["January 2nd","November 12th","February 8th"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the land connecting North America and South America?","correct_answer":"Isthmus of Panama","incorrect_answers":["Isthmus of Suez","Urals","Australasia"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of these cities has a 4&deg; East longitude. ","correct_answer":"Amsterdam","incorrect_answers":["Rio de Janero","Toronto","Hong Kong"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"The Andaman and Nicobar Islands in South East Asia are controlled by which country?","correct_answer":"India","incorrect_answers":["Vietnam","Thailand","Indonesia"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What is the capital of Mauritius?","correct_answer":"Port Louis","incorrect_answers":["Port Moresby","Port Vila","Port-au-Prince"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"In which country is Tallinn located?","correct_answer":"Estonia","incorrect_answers":["Finland","Sweden","Poland"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Into which basin does the Jordan River flow into?","correct_answer":"Dead Sea","incorrect_answers":["Aral Sea","Caspian Sea","Salton Sea"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"The emblem on the flag of the Republic of Tajikistan features a sunrise over mountains below what symbol?","correct_answer":"Crown","incorrect_answers":["Bird","Sickle","Tree"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"The Maluku islands (informally known as the Spice Islands) belong to which country?","correct_answer":"Indonesia","incorrect_answers":["Chile","New Zealand","Fiji"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"What national museum will you find in Cooperstown, New York?","correct_answer":"National Baseball Hall of Fame","incorrect_answers":["Metropolitan Museum of Art","National Toy Hall of Fame","Museum of Modern Art"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of these cities is NOT in England?","correct_answer":"Edinburgh","incorrect_answers":["Oxford","Manchester","Southampton"]},{"category":"Geography","type":"multiple","difficulty":"hard","question":"Which country is the Taedong River in?","correct_answer":"North Korea","incorrect_answers":["South Korea","Japan","China"]}]}
 
         # dit fixt wat je boven bij quiz wou
-        # main_api= "https://opentdb.com/api.php?"
-        # url= main_api + urlib.parse.urlencode({'amount': aantal_vragen}) + "&" + urlib.parse.urlencode({'category': cat}) + "&" +  urlib.parse.urlencode({'difficulty': diff}) + "&" + urlib.parse.urlencode({'type': Type})
-        # quiz = requests.get(url).json()
+        main_api= "https://opentdb.com/api.php?"
+        url= main_api + urlib.parse.urlencode({'amount': aantal_vragen}) + "&" + urlib.parse.urlencode({'category': cat}) + "&" +  urlib.parse.urlencode({'difficulty': diff}) + "&" + urlib.parse.urlencode({'type': Type})
+        quiz = requests.get(url).json()
         all_questions  = (quiz['results'])
         question_ans_dict = {}
-        correct_answers = []
+        all_answers = []
 
         for x in range(len(all_questions)):
             possible_answers = []
             possible_answers.clear()
             question_single = (all_questions[x])
             incorrect_answers = question_single['incorrect_answers']
+            print(question_single['question'])
 
             for incorrect in incorrect_answers:
                 possible_answers.append(incorrect)
 
             possible_answers.append(question_single['correct_answer'])
-            correct_answers.append(question_single['correct_answer'])
+            all_answers.append(question_single['correct_answer'])
             question_ans_dict[str(question_single['question'])] = possible_answers
 
+        # key list makes it possible to get to questions via numbers
+        # so if a user wants to got to tanother question we can  add +1 or -1 to the current position
+        key_list = list(question_ans_dict.keys())
 
+        for x in range(len(key_list)):
+            question = key_list[x]
+            answer_list = question_ans_dict[str(question)]
+            answer_1 = random.choice(answer_list)
 
-        return render_template("quiz.html", answers = correct_answers, quest_ans = question_ans_dict)
+            #  check if every answer in the multiple choice display is unique
+            answer_2 = random.choice(answer_list)
+            if answer_2 == answer_1:
+                answer_2 = random.choice(answer_list)
+                while answer_2 == answer_1:
+                    answer_2 = random.choice(answer_list)
+
+            answer_3 = random.choice(answer_list)
+            if answer_3 == answer_1 or answer_3 == answer_2:
+                answer_3 = random.choice(answer_list)
+                while answer_3 == answer_1 or answer_3 == answer_2:
+                    answer_3 = random.choice(answer_list)
+
+            answer_4 = random.choice(answer_list)
+            if answer_4 == answer_1 or answer_4== answer_2 or answer_4 == answer_3:
+                answer_4 = random.choice(answer_list)
+                while answer_4 == answer_1 or answer_4== answer_2 or answer_4 == answer_3:
+                    answer_4 = random.choice(answer_list)
+            return render_template("quiz.html", question = question, answer_4 = answer_4)
     else:
         return render_template("quiz.html")
 

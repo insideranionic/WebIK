@@ -6,6 +6,11 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <link rel="stylesheet" href="static/style_home.css">
+        {% if request.endpoint == 'quiz' %}
+            <link href="{{ url_for('static', filename='style_quiz.css') }}" rel="stylesheet" type="text/css">
+        {% elif request.endpoint == 'another' %}
+                <link href="{{ url_for('static', filename='another.css') }}" rel="stylesheet" type="text/css">
+        {% endif %}
 
         <title>Facta: {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +37,7 @@
                 </div>
                 <a href="register">register</a>
                 <div class="right">
-                    <a href="index">Home</a>
+                    <a href="student_index">Home</a>
                     <a href="room">Room</a>
                     <a href="result">Results</a>
                 </div>
