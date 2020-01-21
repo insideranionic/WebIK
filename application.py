@@ -288,15 +288,14 @@ def quiz():
             incorrect_answers = question_single['incorrect_answers']
 
             for incorrect in incorrect_answers:
-                possible_answers.append(incorrect)
+                possible_answers.append(tuple((incorrect, 'False')))
 
-            possible_answers.append(question_single['correct_answer'])
-            correct_answers.append(question_single['correct_answer'])
+            possible_answers.append(tuple((question_single['correct_answer'], 'True')))
             question_ans_dict[str(question_single['question'])] = possible_answers
 
 
 
-        return render_template("quiz.html", answers = correct_answers, quest_ans = question_ans_dict)
+        return render_template("quiz.html", data = question_ans_dict)
     else:
         return render_template("quiz.html")
 
@@ -305,7 +304,7 @@ def room():
     # get all the rooms out of a database that user is in
         # make a table with
     room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher ='rzff')
-    quizes = [categories["categories"] for categories in room_categories]
+    quizes = set([categories["categories"] for categories in room_categories])
 
     return render_template("room.html", room_quizes = quizes)
 

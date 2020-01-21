@@ -5,7 +5,7 @@ const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
 let shuffledQuestions, currentQuestionIndex
-
+let score = 0
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++
@@ -55,10 +55,13 @@ function selectAnswer(e) {
     setStatusClass(button, button.dataset.correct)
   })
   if (shuffledQuestions.length > currentQuestionIndex + 1) {
+    // send score to database
     nextButton.classList.remove('hide')
   } else {
     startButton.innerText = 'Restart'
     startButton.classList.remove('hide')
+    console.log(score)
+    score = 0
   }
 }
 
@@ -66,6 +69,7 @@ function setStatusClass(element, correct) {
   clearStatusClass(element)
   if (correct) {
     element.classList.add('correct')
+    score += 1
   } else {
     element.classList.add('wrong')
   }
@@ -76,12 +80,45 @@ function clearStatusClass(element) {
   element.classList.remove('wrong')
 }
 
+// var vragenlijst = {{data}}
+// for keys,values in data(data is a dict)
+        // question = key
+        // for answers in value:
+                // answer: [
+                //  sequence of answers needs to be randomized everytime
+                // {text: answers[0] correct: answers[1]}
+                //  {text: answers[0] correct: answers[1]}
+                // ]
+
 const questions = [
   {
-    question: 'test question',
+    question: 'What is 2 + 2?',
     answers: [
       { text: '4', correct: true },
-      { text: '8', correct: false }
+      { text: '22', correct: false }
+    ]
+  },
+  {
+    question: 'What is 4 + 4?',
+    answers: [
+      { text: '8', correct: true },
+      { text: '22', correct: false }
+    ]
+  },
+   {
+    question: 'What is 2 + 2?',
+    answers: [
+      { text: '4', correct: true },
+      { text: '22', correct: false }
+    ]
+  },
+  {
+    question: 'What is 4 + 4?',
+    answers: [
+      { text: '8', correct: true },
+      { text: '22', correct: false }
     ]
   }
+
+
 ]
