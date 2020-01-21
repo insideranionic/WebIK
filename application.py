@@ -9,7 +9,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from help_web import login_required
+from help_web import login_required, apology
 
 # Configure application
 app = Flask(__name__)
@@ -87,7 +87,7 @@ def check():
             return jsonify(False)
 
         # check for every name in taken names if username matches one of taken names
-        for taken_name in taken_names_teach:
+        for taken_name in taken_names:
             if username == taken_name["username"]:
                 return jsonify(False)
 
@@ -203,8 +203,8 @@ def register():
 # return results of student
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    #result_sql = db.execute("SELECT username, result, room_name, quiz_name, category, date FROM student_results where student_id = 1" )
-    return render_template("result.html")
+    result_sql = db.execute("SELECT username, result, room_name, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
+    return render_template("result.html", result_sql=result_sql)
 
 def errorhandler(e):
     """Handle error"""
