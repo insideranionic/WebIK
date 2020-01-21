@@ -1,5 +1,6 @@
 import os
 
+import json
 import random
 import requests
 from cs50 import SQL
@@ -279,23 +280,29 @@ def quiz():
         # quiz = requests.get(url).json()
         all_questions  = (quiz['results'])
         question_ans_dict = {}
+        dict_vragen = {}
+        quiz_list = []
+
         correct_answers = []
 
         for x in range(len(all_questions)):
-            possible_answers = []
-            possible_answers.clear()
-            question_single = (all_questions[x])
-            incorrect_answers = question_single['incorrect_answers']
+            dict_answers = {}
+            wrong_list = (all_questions[x])['incorrect_answers']
+            dict_vragen["question"] =  str((all_questions[x])['question'])
+            answer_list = []
+            for incorrect in wrong_list:
+                dict_answers_wrong = {}
+                dict_answers_wrong["text"] = incorrect
+                dict_answers_wrong["correct"] = False
+                answer_list.append(dict_answers_wrong)
+            dict_answers["text"] = (all_questions[x])['correct_answer']
+            dict_answers["correct"] = True
+            answer_list.append(dict_answers)
+            dict_vragen['answer'] = answer_list
 
-            for incorrect in incorrect_answers:
-                possible_answers.append(tuple((incorrect, 'False')))
-
-            possible_answers.append(tuple((question_single['correct_answer'], 'True')))
-            question_ans_dict[str(question_single['question'])] = possible_answers
-
-
-
-        return render_template("quiz.html", data = question_ans_dict)
+            quiz_list.append(dict_vragen)
+        print(quiz_list)
+        return render_template("quiz.html", data = quiz_list)
     else:
         return render_template("quiz.html")
 
