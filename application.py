@@ -308,12 +308,20 @@ def quiz():
 
 @app.route("/room", methods=["GET", "POST"])
 def room():
-    # get all the rooms out of a database that user is in
-        # make a table with
-    room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher ='rzff')
-    quizes = set([categories["categories"] for categories in room_categories])
+    if request.method == "POST":
 
-    return render_template("room.html", room_quizes = quizes)
+        username_teacher= request.form.get("search")
+
+        # get all the rooms out of a database that user is in
+            # make a table with
+
+        room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher =username_teacher)
+        quizes = set([categories["categories"] for categories in room_categories])
+
+        return render_template("room.html", room_quizes = quizes)
+
+    else:
+        return render_template("room.html")
 
 
 @app.route("/leaderboard")

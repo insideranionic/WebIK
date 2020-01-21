@@ -141,3 +141,13 @@ footer {
 .link:hover {
   color: white;
 }
+
+img {
+  top : 1%;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  height: 6%;
+  width: 7%;
+}
