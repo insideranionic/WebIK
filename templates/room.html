@@ -5,6 +5,15 @@
 {% endblock %}
 
 {% block main %}
+        <form class = "search" action="/room" method="POST">
+        <div class="form">
+            <input name="search" placeholder="Search teacher room" type="text">
+        </div>
+        <button class="button_login">Search</button>
+        </form>
+        </div>
+
+
     <form action="/room" method="GET">
         {% for quizes in room_quizes %}
          <a class="room" href="quiz">{{quizes}}</a>
