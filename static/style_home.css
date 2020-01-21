@@ -151,3 +151,11 @@ img {
   height: 6%;
   width: 7%;
 }
+
+.form-group {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 2px solid red;
+  border-radius: 4px;
+}
