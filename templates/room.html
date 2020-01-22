@@ -6,21 +6,11 @@
 
 {% block main %}
 
-        <form class = "search" action="/room" method="POST">
-        <div class="form">
-            <input name="search" placeholder="Search teacher room" type="text">
-        </div>
-        <button class="submit">Search</button>
-        </form>
-
-        </body>
-
-
-    <form action="/quiz" method="GET" style="height:250px">
+    <form style="height:250px">
 
             <select name= "dropdown">
-              {% for quizes in room_quizes %}
-              <option value="{{quizes}}">{{quizes}}</option>
+              {% for quiz in quizes %}
+              <option value="{{quiz}}">{{quiz}}</option>
                 {% endfor %}
             </select>
             <button class="submit">Start</button>
