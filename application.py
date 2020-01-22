@@ -308,20 +308,12 @@ def quiz():
 
 @app.route("/room", methods=["GET", "POST"])
 def room():
-    if request.method == "POST":
+    # get all the rooms out of a database that user is in
+        # make a table with
+    room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher ='rzff')
+    quizes = set([categories["categories"] for categories in room_categories])
 
-        username_teacher= request.form.get("search")
-
-        # get all the rooms out of a database that user is in
-            # make a table with
-
-        room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher =username_teacher)
-        quizes = set([categories["categories"] for categories in room_categories])
-
-        return render_template("room.html", room_quizes = quizes)
-
-    else:
-        return render_template("room.html")
+    return render_template("room.html", room_quizes = quizes)
 
 
 @app.route("/leaderboard")
@@ -336,22 +328,18 @@ def leaderboard():
     else:
         return render_template("leaderboard.html")
 
-# @app.route("/search")
-# def search():
-#     """search for room"""
+@app.route("/search")
+def search():
+    """search for room"""
 
-#     # User reached route via POST (as by submitting a form via POST)
-#     if request.method == "POST":
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
 
-#         teacher= request.form.get("search")
-#         cate = db.execute("SELECT categories FROM rooms WHERE username_teacher = :teacher", teacher = teacher)
+        return redirect("/")
 
-
-#         return render_template("room.html", cate = cate)
-
-#     # User reached route via GET (as by clicking a link or via redirect)
-#     else:
-#         return render_template("search.html")
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("leaderboard.html")
 
 
 # Listen for errors
