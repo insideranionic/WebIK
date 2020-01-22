@@ -288,6 +288,7 @@ def quiz():
     url= main_api + urllib.parse.urlencode({'amount': aantal_vragen}) + "&" + urllib.parse.urlencode({'category': cat}) + "&" +  urllib.parse.urlencode({'difficulty': diff}) + "&" + urllib.parse.urlencode({'type': Type})
     quiz = requests.get(url).json()
     all_questions  = (quiz['results'])
+    print(quiz)
     question_list = []
     correct_answers = []
     all_answer_sheets = []
