@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    room
+    search
 {% endblock %}
 
 {% block main %}
@@ -12,18 +12,5 @@
         </div>
         <button class="submit">Search</button>
         </form>
-
-
-    <form action="/quiz" method="GET" style="height:250px">
-
-            <select>
-              {% for quizes in room_quizes %}
-              <option value="quiz">{{quizes}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="name" value=hiermoetdevaluestaan>
-            <button class="submit">Start</button>
-
-    </form>
 
 {% endblock %}

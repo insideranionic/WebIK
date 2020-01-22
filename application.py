@@ -35,6 +35,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
 
+
 @app.route("/homepage", methods=["GET", "POST"])
 def homepage():
     return render_template("homepage.html")
@@ -65,13 +66,16 @@ def index():
             # Get type of quiz (default = multiple choice)
             type_q = request.form.get("type")
 
+            username_teacher = request.form.get("username")
+
             # Add data to database
-            db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type, name) VALUES (:amount, :difficulty, :category, :type_q, :name)",
-                        amount=amount, difficulty=difficulty, category=category, type_q=type_q, name=name)
+            db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type, name, username_teacher) VALUES (:amount, :difficulty, :category, :type_q, :name, :username_teacher)",
+                        amount=amount, difficulty=difficulty, category=category, type_q=type_q, name=name, username_teacher=username_teacher)
 
             return redirect("/")
         else:
-            return render_template("teacher_index.html")
+            categorie= ["History","Politics"]
+            return render_template("teacher_index.html", categorie= categorie)
 
     # Render student template if user is not a teacher
     else:
@@ -264,7 +268,7 @@ def change_password():
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-
+    quiz_name = request.form.get('name')
     # # hoe komen we aan de naam van de quiz bij name= "naam"????
     # catte= db.execute("SELECT category FROM new_quizes WHERE name = :name", name=naam)
     # diffi = db.execute("SELECT difficulty FROM new_quizes WHERE name = :name", name=naam)
@@ -315,10 +319,15 @@ def quiz():
 def room():
     # get all the rooms out of a database that user is in
         # make a table with
-    room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher ='rzff')
-    quizes = set([categories["categories"] for categories in room_categories])
+    if request.method == "POST":
 
-    return render_template("room.html", room_quizes = quizes)
+        username_teacher= request.form.get("search")
+        room_categories = db.execute("SELECT name FROM new_quizes WHERE username_teacher=:username_teacher", username_teacher =username_teacher)
+        quizes = set([categories["name"] for categories in room_categories])
+
+        return render_template("room.html", room_quizes = quizes)
+    else:
+        return render_template("room.html")
 
 
 @app.route("/leaderboard")
@@ -333,18 +342,18 @@ def leaderboard():
     else:
         return render_template("leaderboard.html")
 
-@app.route("/search")
-def search():
-    """search for room"""
+# @app.route("/search")
+# def search():
+#     """search for room"""
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
+#     # User reached route via POST (as by submitting a form via POST)
+#     if request.method == "POST":
 
-        return redirect("/")
+#         return redirect("/")
 
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("leaderboard.html")
+#     # User reached route via GET (as by clicking a link or via redirect)
+#     else:
+#         return render_template("leaderboard.html")
 
 
 # Listen for errors

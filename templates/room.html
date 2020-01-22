@@ -16,12 +16,12 @@
 
     <form action="/quiz" method="GET" style="height:250px">
 
-            <select>
+            <select name= "dropdown">
               {% for quizes in room_quizes %}
-              <option value="quiz">{{quizes}}</option>
+              <option value="{{quizes}}">{{quizes}}</option>
                 {% endfor %}
             </select>
-            <input type="hidden" name="name" value= >
+            <input type="hidden" name="name" value="name">
             <button class="submit">Start</button>
 
     </form>
