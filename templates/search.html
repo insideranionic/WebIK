@@ -5,15 +5,13 @@
 {% endblock %}
 
 {% block main %}
-
+<<<<<<<<< saved version
         <form class = "search" action="/room" method="POST">
         <div class="form">
             <input name="search" placeholder="Search teacher room" type="text">
         </div>
         <button class="submit">Search</button>
         </form>
-
-        </body>
 
 
     <form action="/quiz" method="GET" style="height:250px">
@@ -23,10 +21,9 @@
               <option value="quiz">{{quizes}}</option>
                 {% endfor %}
             </select>
-            <input type="hidden" name="name" value= >
+            <input type="hidden" name="name" value=hiermoetdevaluestaan>
             <button class="submit">Start</button>
 
     </form>
-
 
 {% endblock %}
