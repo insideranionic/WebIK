@@ -336,6 +336,23 @@ def leaderboard():
     else:
         return render_template("leaderboard.html")
 
+# @app.route("/search")
+# def search():
+#     """search for room"""
+
+#     # User reached route via POST (as by submitting a form via POST)
+#     if request.method == "POST":
+
+#         teacher= request.form.get("search")
+#         cate = db.execute("SELECT categories FROM rooms WHERE username_teacher = :teacher", teacher = teacher)
+
+
+#         return render_template("room.html", cate = cate)
+
+#     # User reached route via GET (as by clicking a link or via redirect)
+#     else:
+#         return render_template("search.html")
+
 
 # Listen for errors
 for code in default_exceptions:
