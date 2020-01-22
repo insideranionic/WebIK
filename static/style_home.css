@@ -159,3 +159,19 @@ img {
   border: 2px solid red;
   border-radius: 4px;
 }
+
+.table {
+  border: 2px solid black;
+}
+
+.rounded {
+  border-radius: 25px;
+  background: #333;
+  padding: 20px;
+  width: 40%;
+  height: 30%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

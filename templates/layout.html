@@ -7,11 +7,6 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="static/style_home.css">
 
-        {% if request.endpoint == 'quiz' %}
-            <link href="{{ url_for('static', filename='style_quiz.css') }}" rel="stylesheet" type="text/css">
-        {% elif request.endpoint == 'another' %}
-            <link href="{{ url_for('static', filename='another.css') }}" rel="stylesheet" type="text/css">
-        {% endif %}
 
         <title>Facta: {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

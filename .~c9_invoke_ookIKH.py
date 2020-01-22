@@ -35,7 +35,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
 
-
 @app.route("/homepage", methods=["GET", "POST"])
 def homepage():
     return render_template("homepage.html")
@@ -66,16 +65,13 @@ def index():
             # Get type of quiz (default = multiple choice)
             type_q = request.form.get("type")
 
-            username_teacher = request.form.get("username")
-
             # Add data to database
-            db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type, name, username_teacher) VALUES (:amount, :difficulty, :category, :type_q, :name, :username_teacher)",
-                        amount=amount, difficulty=difficulty, category=category, type_q=type_q, name=name, username_teacher=username_teacher)
+            db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type, name) VALUES (:amount, :difficulty, :category, :type_q, :name)",
+                        amount=amount, difficulty=difficulty, category=category, type_q=type_q, name=name)
 
             return redirect("/")
         else:
-            categorie= ["History","Politics"]
-            return render_template("teacher_index.html", categorie= categorie)
+            return render_template("teacher_index.html")
 
     # Render student template if user is not a teacher
     else:
@@ -268,7 +264,7 @@ def change_password():
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    quiz_name = request.form.get('name')
+
     # # hoe komen we aan de naam van de quiz bij name= "naam"????
     # catte= db.execute("SELECT category FROM new_quizes WHERE name = :name", name=naam)
     # diffi = db.execute("SELECT difficulty FROM new_quizes WHERE name = :name", name=naam)
@@ -292,7 +288,6 @@ def quiz():
     question_value_dict = {}
     question_answer_dict = {}
 
-
     x = 0
 
     for x in range(len(all_questions)):
@@ -311,9 +306,9 @@ def quiz():
         question_index += 1
 
     if request.method == "GET":
-        session["user_answer"] = 0
         answer_list = all_answer_sheets[x]
         question = question_list[x]
+        print(answer_list)
         return render_template("quiz.html", question = question , answers = answer_list)
     else:
         answer = request.form.get("answer")
@@ -322,29 +317,17 @@ def quiz():
         new_question = int(question_value_dict[question]) - 1
         question = question_list[new_question]
         answer_list = question_answer_dict[question]
-        if new_question != 0:
-            if answer in correct_answers:
-                session['user_answer'] += 1
-            print(session['user_answer'])
-            return render_template("quiz.html", question = question , answers = answer_list)
-        else:
-            result = session["user_answer"]
-            return render_template("result.html", result = result)
+        return render_template("quiz.html", question = question , answers = answer_list)
 
 
 @app.route("/room", methods=["GET", "POST"])
 def room():
     # get all the rooms out of a database that user is in
         # make a table with
-    if request.method == "POST":
+    room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher ='rzff')
+    quizes = set([categories["categories"] for categories in room_categories])
 
-        username_teacher= request.form.get("search")
-        room_categories = db.execute("SELECT name FROM new_quizes WHERE username_teacher=:username_teacher", username_teacher =username_teacher)
-        quizes = set([categories["name"] for categories in room_categories])
-
-        return render_template("room.html", room_quizes = quizes)
-    else:
-        return render_template("room.html")
+    return render_template("room.html", room_quizes = quizes)
 
 
 @app.route("/leaderboard")
@@ -359,18 +342,18 @@ def leaderboard():
     else:
         return render_template("leaderboard.html")
 
-# @app.route("/search")
-# def search():
-#     """search for room"""
+@app.route("/search")
+def search():
+    """search for room"""
 
-#     # User reached route via POST (as by submitting a form via POST)
-#     if request.method == "POST":
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
 
-#         return redirect("/")
+        return redirect("/")
 
-#     # User reached route via GET (as by clicking a link or via redirect)
-#     else:
-#         return render_template("leaderboard.html")
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("leaderboard.html")
 
 
 # Listen for errors
