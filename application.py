@@ -288,6 +288,7 @@ def quiz():
     question_value_dict = {}
     question_answer_dict = {}
 
+
     x = 0
 
     for x in range(len(all_questions)):
@@ -306,9 +307,9 @@ def quiz():
         question_index += 1
 
     if request.method == "GET":
+        session["user_answer"] = 0
         answer_list = all_answer_sheets[x]
         question = question_list[x]
-        print(answer_list)
         return render_template("quiz.html", question = question , answers = answer_list)
     else:
         answer = request.form.get("answer")
@@ -317,8 +318,14 @@ def quiz():
         new_question = int(question_value_dict[question]) - 1
         question = question_list[new_question]
         answer_list = question_answer_dict[question]
-        return render_template("quiz.html", question = question , answers = answer_list)
-
+        if new_question != 0:
+            if answer in correct_answers:
+                session['user_answer'] += 1
+            print(session['user_answer'])
+            return render_template("quiz.html", question = question , answers = answer_list)
+        else:
+            result = session["user_answer"]
+            return render_template("result.html", result = result)
 
 @app.route("/room", methods=["GET", "POST"])
 def room():
