@@ -35,6 +35,10 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
 
+@app.route("/homepage", methods=["GET", "POST"])
+def homepage():
+    return render_template("homepage.html")
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -64,6 +68,7 @@ def index():
             # Add data to database
             db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type, name) VALUES (:amount, :difficulty, :category, :type_q, :name)",
                         amount=amount, difficulty=difficulty, category=category, type_q=type_q, name=name)
+
             return redirect("/")
         else:
             return render_template("teacher_index.html")
