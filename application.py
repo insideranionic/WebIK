@@ -318,7 +318,10 @@ def room():
         room_categories = db.execute("SELECT categories FROM rooms WHERE username_teacher=:username_teacher", username_teacher =username_teacher)
         quizes = set([categories["categories"] for categories in room_categories])
 
-        return render_template("room.html", room_quizes = quizes)
+        if not quizes:
+            return render_template("room.html")
+
+        return render_template("room_quiz.html", room_quizes = quizes)
 
     else:
         return render_template("room.html")

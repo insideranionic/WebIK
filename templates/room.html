@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<<<<<<<<< saved version
+
         <form class = "search" action="/room" method="POST">
         <div class="form">
             <input name="search" placeholder="Search teacher room" type="text">
@@ -14,10 +14,6 @@
         </form>
         </div>
 
+        </body>
 
-    <form action="/room" method="GET" style="height:500px">
-        {% for quizes in room_quizes %}
-          <button><a href="quiz">{{quizes}}</a></li>
-        {% endfor %}
-    </form>
 {% endblock %}

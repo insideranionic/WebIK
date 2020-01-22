@@ -159,3 +159,7 @@ img {
   border: 2px solid red;
   border-radius: 4px;
 }
+
+.table {
+  border: 2px solid black;
+}
