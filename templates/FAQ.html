@@ -1,19 +1,29 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Log In
+    FAQ
 {% endblock %}
 
 {% block main %}
 <body>
-    <div class = "faq">
-        <h1>How does the game work?</h1>
-        <p1 class = "faq-text" >The game is actually quite simple.
+
+<div class = "faq">
+  <button onclick="myFunction()" class="dropbtn">How does the game work?</button>
+  <div id = "faq-id" class = "faq-text">
+        <p1  >The game is actually quite simple.
         Just go to room and enter your teacher ID and try to answer all the questions correct.
         After the quiz is done u can go to results and see where u can improve your skills.
         </p1>
-    </div>
+  </div>
+</div>
+<script>
+// Get the button, and when the user clicks on it, execute myFunction
+document.getElementById("dropBtn").onclick = function() {myFunction()};
 
-
+/* myFunction toggles between adding and removing the show class, which is used to hide and show the dropdown content */
+function myFunction() {
+  document.getElementById("faq-id").classList.toggle("show");
+}
+</script>
 </body>
 {% endblock %}

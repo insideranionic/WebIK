@@ -380,6 +380,6 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 
-@app.route("/homepage", methods=["GET", "POST"])
-def homepage():
-    return render_template("homepage.html")
+@app.route("/FAQ", methods=["GET", "POST"])
+def faq():
+    return render_template("FAQ.html")
