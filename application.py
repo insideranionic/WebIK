@@ -12,7 +12,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-from help_web import login_required, apology
+from help_web import login_required, apology, convert
 
 # Configure application
 app = Flask(__name__)
@@ -91,7 +91,6 @@ def index():
                 answer_question = all_questions[x]['incorrect_answers']
                 answer_question.append(all_questions[x]['correct_answer'])
                 correct_answers.append(all_questions[x]['correct_answer'])
-                answer_question = (random.sample(answer_question, len(answer_question)))
                 all_answer_sheets.append(answer_question)
                 question_list.append(all_questions[x]['question'])
 
@@ -320,35 +319,57 @@ def quiz():
     # url= main_api + urllib.parse.urlencode({'amount': aantal_vragen}) + "&" + urllib.parse.urlencode({'category': cat}) + "&" +  urllib.parse.urlencode({'difficulty': diff}) + "&" + urllib.parse.urlencode({'type': Type})
     # quiz = requests.get(url).json()
     # all_questions  = (quiz['results'])
-    var= db.execute("SELECT * FROM teach_lijst")
-    print(var)
-    print(quiz)
-    question_list = []
-    correct_answers = []
+    quiz_data= db.execute("SELECT * FROM teach_lijst")[0]
+    quiz_answers = quiz_data['all_answer_sheets']
+    quiz_questions = quiz_data["vragen_lijst"]
+
+
+    #  make the quiz answers into a csv type output and convert it into a list
+    quiz_answers = quiz_answers.replace("[","");
+    quiz_answers = quiz_answers.replace("]","");
+    quiz_answers = quiz_answers.replace("'","");
+    quiz_answers = quiz_answers.replace(" ","");
+    quiz_answer_list = convert(quiz_answers)
+
+    # make the questions into a csv type output and convert it into a list
+    quiz_questions = quiz_questions.replace("'",",");
+    question_list = convert(quiz_questions)
+
+    single_ans_sheet = []
     all_answer_sheets = []
+    correct_answers = []
+    question_value_dict = {}
+    question_answer_dict = {}
+    counter = 0
 
 
-    x = 0
 
-    for x in range(len(all_questions)):
-        answer_question = []
-        answer_question = all_questions[x]['incorrect_answers']
-        answer_question.append(all_questions[x]['correct_answer'])
-        correct_answers.append(all_questions[x]['correct_answer'])
-        answer_question = (random.sample(answer_question, len(answer_question)))
-        all_answer_sheets.append(answer_question)
-        question_list.append(all_questions[x]['question'])
-        question_answer_dict[all_questions[x]['question']] = answer_question
+    # make a list with list(these contain the choices of the question)
+    for answer in quiz_answer_list:
+        counter += 1
+        single_ans_sheet.append(answer)
+        if counter % 4 == 0:
+            all_answer_sheets.append(single_ans_sheet)
+            single_ans_sheet = []
+    # make a list of correct answers ( 3 is the location of the right answers in the list)
+    for answers in all_answer_sheets:
+        correct_answers.append(answers[3])
 
     question_index = 0
     for question in question_list:
         question_value_dict[question] = question_index
         question_index += 1
 
+    x = 0
+    for questions in question_list:
+        x += 1
+        question_answer_dict[questions] = correct_answers[0]
+
     if request.method == "GET":
-        session["user_answer"] = 0
-        answer_list = all_answer_sheets[x]
-        question = question_list[x]
+        session["result"] = 0
+        print(session["result"])
+        answer_list = all_answer_sheets[0]
+        question = question_list[0]
         return render_template("quiz.html", question = question , answers = answer_list)
     else:
         answer = request.form.get("answer")
@@ -356,14 +377,17 @@ def quiz():
         # -1 to retrieve index of next question
         new_question = int(question_value_dict[question]) - 1
         question = question_list[new_question]
-        answer_list = question_answer_dict[question]
+        answer_list =  all_answer_sheets[new_question]
+        answer_list = random.sample(answer_list, len(answer_list))
+
+        if answer in correct_answers:
+            session["result"] += 1
+            print(session["result"])
+
         if new_question != 0:
-            if answer in correct_answers:
-                session['user_answer'] += 1
-            print(session['user_answer'])
             return render_template("quiz.html", question = question , answers = answer_list)
         else:
-            result = session["user_answer"]
+            # result = session["user_answer"]
             return render_template("result.html", result = result)
 
 
