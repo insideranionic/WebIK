@@ -6,6 +6,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <link rel="stylesheet" href="static/style_home.css">
+        <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
 
 
         <title>Facta: {% block title %}{% endblock %}</title>
@@ -14,10 +15,10 @@
     <body>
         {% if session.user_id %}
             <div class="navbar">
-                <a href="" >logout</a>
+                <a href="" >Logout</a>
                 <img src = "logo.png">
-=======
-                <a href="/logout" >logout</a>
+                <a href="/logout" >Logout</a>
+                <a href = "FAQ">FAQ</a>
 
 
                 <div class="right">
@@ -30,14 +31,14 @@
         {% else %}
             <div class="navbar">
                 <div class="dropdown">
-                    <button class="dropbtn">login</button>
+                    <button class="dropbtn">Login</button>
                     <div class="dropdown-content">
-                        <a href="login">Teacher login</a>
-                        <a href="login">Student login</a>
+                        <a href="login">Teacher Login</a>
+                        <a href="login">Student Login</a>
                     </div>
                 </div>
-                <img src = "static/logo.png">
-                <a href="register">register</a>
+                <a href="register">Register</a>
+                <a href = "FAQ">FAQ</a>
                 <div class="right">
                     <a href="student_index">Home</a>
                     <a href="room">Room</a>
@@ -45,6 +46,7 @@
 
                 </div>
             </div>
+            <a href="homepage"><img src="static/logo.png"></a>
         {% endif %}
 
 

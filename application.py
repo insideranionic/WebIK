@@ -412,3 +412,6 @@ for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
 
+@app.route("/FAQ", methods=["GET", "POST"])
+def faq():
+    return render_template("FAQ.html")
