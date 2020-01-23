@@ -1,29 +1,19 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    room
+    search
 {% endblock %}
 
 {% block main %}
-<<<<<<<<< saved version
-        <form class = "search" action="/room" method="POST">
-        <div class="form">
-            <input name="search" placeholder="Search teacher room" type="text">
+
+        <form class = "search" action="{{url_for('search')}}" method="POST">
+        <div class="form-group">
+            <input name="search" placeholder="Search quiz" type="text">
         </div>
-        <button class="submit">Search</button>
+        <div class= form-group>
+            <button type="submit">Search</button>
+        </div>
+
         </form>
-
-
-    <form action="/quiz" method="GET" style="height:250px">
-
-            <select>
-              {% for quizes in room_quizes %}
-              <option value="quiz">{{quizes}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="name" value=hiermoetdevaluestaan>
-            <button class="submit">Start</button>
-
-    </form>
 
 {% endblock %}

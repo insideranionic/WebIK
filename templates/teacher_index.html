@@ -16,6 +16,12 @@ Hallo ik ben een leraar
 
     <form action="/" method="post">
         <div class="form-group">
+            <input class="form-control" name="username" placeholder="username" type="text">
+        </div>
+
+
+    <form action="/" method="post">
+        <div class="form-group">
             <input class="form-control" name="questions" placeholder="Amount of questions" type="number" min="1" max="50">
         </div>
 
@@ -33,14 +39,16 @@ Hallo ik ben een leraar
         <div class="form-group">
             <select class="form-control" name="category">
                 <option disabled selected value="category">Category</option>
-                        <option value="teacher">Dit moeten we ff fixen met zo'n jinja forloop</option>
+                {% for cat in categorie %}
+                  <option value="{{cat}}">{{cat}}</option>
+                {% endfor %}
             </select>
         </div>
 
     <form action="/" method="post" onsubmit="function(event){ event.preventDefault();}">
         <div class="form-group">
             <select class="form-control" name="type">
-                <option selected value="multiple_choice">Multiple choice</option>
+                <option selected value="multiple">Multiple choice</option>
             </select>
         </div>
             <button class="btn btn-primary" type="submit">Create quiz</button>
