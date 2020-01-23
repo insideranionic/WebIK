@@ -163,21 +163,3 @@ img {
 .table {
   border: 2px solid black;
 }
-.faq {
-  border: 3px solid black;
-  padding: 1%;
-  background-color: #333;
-  width: 60%;
-  margin: 1%;
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%)
-
-
-}
-.faq-text {
-  display: none;
-  color: white;
-}
-
-.show {display:block;}
