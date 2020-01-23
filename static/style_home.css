@@ -175,3 +175,19 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.title {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 3%;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: #333;
+  background-color: white;
+  text-align: center;
+}
+.text {
+  text-align: center;
+}
