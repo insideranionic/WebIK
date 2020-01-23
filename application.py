@@ -322,6 +322,8 @@ def quiz():
     quiz_data= db.execute("SELECT * FROM teach_lijst")[0]
     quiz_answers = quiz_data['all_answer_sheets']
     quiz_questions = quiz_data["vragen_lijst"]
+    quiz_id= session["quiz_id"]
+    quiz_id= quiz_id[0]["quiz_id"]
 
 
     #  make the quiz answers into a csv type output and convert it into a list
@@ -391,16 +393,17 @@ def quiz():
             return render_template("result.html", result = result)
 
 
-@app.route("/room", methods=["GET", "POST"])
-def room():
+# @app.route("/room", methods=["GET", "POST"])
+# def room():
 
-    if request.method == "POST":
-        quizes = session["quizes"]
-        return render_template("room.html", quizes = quizes)
+#     if request.method == "POST":
 
-    else:
-        session["quiz_name"]= request.form('dropdown')
-        return redirect(url_for("quiz"))
+#         return redirect(url_for("quiz"))
+
+#     else:
+#         username_teach= session.get("quizes")
+#         quizes= db.execute("SELECT naam_quiz FROM teach_lijst WHERE naam_teach=:username_teach", username_teach=username_teach)
+#         return render_template("room.html", quizes = quizes)
 
 
 @app.route("/leaderboard")
@@ -422,8 +425,9 @@ def search():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        session["quizes"] = request.form.get("search")
-
+        name = request.form.get("search")
+        quiz_id= db.execute("SELECT quiz_id FROM teach_lijst WHERE naam_quiz=:name", name=name)
+        session["quiz_id"] = quiz_id
         return redirect(url_for("quiz"))
 
     # User reached route via GET (as by clicking a link or via redirect)

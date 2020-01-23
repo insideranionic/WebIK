@@ -13,7 +13,9 @@
               <option value="{{quiz}}">{{quiz}}</option>
                 {% endfor %}
             </select>
-            <button class="submit">Start</button>
+            <form action="/quiz" method = "get">
+              <button class="submit">Start</button>
+            </form>
 
     </form>
 
