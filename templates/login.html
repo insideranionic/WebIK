@@ -7,6 +7,13 @@
 {% block main %}
     <div class = "rounded">
     <form class = "login" action="/login" method="post">
+        <div class="form-group">
+            <select class="form-control" name="role">
+                <option disabled selected value="role">Role</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+            </select>
+        </div>
         <div class="form">
             <input name="username" placeholder="Username" type="text">
         </div>
