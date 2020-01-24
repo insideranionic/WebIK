@@ -218,6 +218,9 @@ def register():
 
         # Insert teachers into teacher database...
         if role == "teacher":
+            username_check =  db.execute("SELECT * FROM teacher WHERE username = :username", username=username)
+            if  username:
+                return render_template("register.html", error_message = "username is taken")
             result = db.execute("INSERT INTO Teacher(username, hash) VALUES(:username, :password)", username=username, password=password)
 
             # Set session key to 'teacher'
@@ -225,6 +228,9 @@ def register():
 
         # ...and insert students into student database
         elif role == "student":
+            username_check =  db.execute("SELECT * FROM student WHERE username = :username", username=username)
+            if  username:
+                return render_template("register.html", error_message = "username is taken")
             result = db.execute("INSERT INTO student(username, hash) VALUES(:username, :password)", username=username, password=password)
 
             # Set session key to 'student'
