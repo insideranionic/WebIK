@@ -7,8 +7,8 @@
 {% block main %}
 <body>
 
-<div class = "faq">
-  <h3 onclick="myFunction()" class="dropbtn">How does the game work?</h1>
+<div onclick="myFunction()" class = "faq">
+  <h3>How does the game work?</h1>
   <div id = "faq-id" class = "faq-text">
         <p1  >The game is actually quite simple.
         Just go to room and enter your teacher ID and try to answer all the questions correct.
@@ -16,13 +16,29 @@
         </p1>
   </div>
 </div>
+<div onclick="myFunction2()" class = "faq-2">
+  <h3>What makes Facta unique?</h1>
+  <div id = "faq-id-2" class = "faq-text">
+        <p1>Facta is fully focused on a students progress.
+        With Facta you can see the catergories of a subject you still have to work on.
+        So Facta doesn't only make learning more fun it also makes it a lot easier.
+        </p1>
+  </div>
+</div>
 <script>
-// Get the button, and when the user clicks on it, execute myFunction
-document.getElementById("dropBtn").onclick = function() {myFunction()};
 
-/* myFunction toggles between adding and removing the show class, which is used to hide and show the dropdown content */
+document.getElementById("faq").onclick = function() {myFunction()};
+
+
 function myFunction() {
   document.getElementById("faq-id").classList.toggle("show");
+}
+
+document.getElementById("faq-2").onclick = function() {myFunction2()};
+
+
+function myFunction2() {
+  document.getElementById("faq-id-2").classList.toggle("show");
 }
 </script>
 </body>
