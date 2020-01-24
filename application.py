@@ -155,8 +155,9 @@ def login():
             return apology("must provide password",)
 
         # Check if user is registered as a teacher
-        sess_role = session.get("key")
-        if sess_role == "teacher":
+        role = request.form.get("role")
+
+        if role == "teacher":
             # Query database for teacher username
             rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
                               username=request.form.get("username"))
