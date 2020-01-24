@@ -1,16 +1,12 @@
-function myFunction() {
-  document.getElementById("faq-id").classList.toggle("show");
-}
+$(document).ready(function(){
+    $(".teacher").click(function () {
+       //this is change select value 1
+        $('#dynamicChange').val('1').trigger('change');
+    });
+     $(".student").click(function () {
+         //
+         //this is change select value 1
+         $('#dynamicChange').val('2').trigger('change');
+    });
 
-window.onclick = function(event) {
-  if (!event.target.matches('.faq')) {
-    var dropdowns = document.getElementsByClassName("faq-text");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
+});

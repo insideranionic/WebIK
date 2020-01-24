@@ -15,8 +15,6 @@
     <body>
         {% if session.user_id %}
             <div class="navbar">
-                <a href="" >Logout</a>
-                <img src = "logo.png">
                 <a href="/logout" >Logout</a>
                 <a href = "FAQ">FAQ</a>
 
@@ -28,13 +26,14 @@
                     <a href="search">Search</a>
                 </div>
             </div>
+            <a class = "logo" href="homepage">Facta</a>
         {% else %}
             <div class="navbar">
                 <div class="dropdown">
                     <button class="dropbtn">Login</button>
                     <div class="dropdown-content">
-                        <a href="login">Teacher Login</a>
-                        <a href="login">Student Login</a>
+                        <a class = "teacher" href="login">Teacher Login</a>
+                        <a class = "student" href="login">Student Login</a>
                     </div>
                 </div>
                 <a href="register">Register</a>
