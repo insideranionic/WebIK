@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+    <h1>{{ error_message }}</h1>
     <form action="/register" method="post" onsubmit="function(event){ event.preventDefault();}">
         <div class="form-group">
             <select class="form-control" name="role">
