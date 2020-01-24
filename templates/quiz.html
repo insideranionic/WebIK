@@ -9,15 +9,12 @@
 <form action="/quiz" method = "post">
 {{question}}
 <input type="hidden" name="question_hidden" value="{{question}}" />
-<select name='answer'>
+
 {% for answers in answers %}
 
-    <option value="{{ answers}}">{{ answers}}</option>
+    <button type="input" name = "answer" value = {{answers}} >{{answers}}</button>
 
 {% endfor %}
- </select>
- <input type="submit" value="next">
- </form>
 
 {% endblock %}
 
