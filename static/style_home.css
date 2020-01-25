@@ -233,5 +233,30 @@ footer {
   text-align: center;
 }
 
+.btn-group button {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
+  background: #FFD2D2;
+  font-family: 'Bangers';
+  font-size: 25px;
+  -webkit-border-radius: 28;  -moz-border-radius: 28;  border-radius: 28px;
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+.question {
+  font-family: 'Bangers';
+  width: 150%;
+  font-size: 40px;
+
+}
+
+.center{
+  margin: 0 auto
+}
 
 
