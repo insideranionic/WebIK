@@ -378,8 +378,23 @@ def quiz():
         if new_question != 0:
             return render_template("quiz.html", question = question , answers = answer_list)
         else:
-            # result = session["user_answer"]
-            return render_template("result.html", result = result)
+
+            teacher_name = db.execute("SELECT naam_teach FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
+            teacher_name= teacher_name[0]["naam_teach"]
+            print(teacher_name)
+            quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
+            quiz_name= quiz_name[0]["naam_quiz"]
+
+            category = db.execute("SELECT category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
+            category= category[0]["category"]
+            db.execute("INSERT INTO student_results(id, username, result, teacher_name, quiz_name, category, quiz_id) VALUES(:user_id, :username, :result, :teacher_name, :quiz_name, :category, :quiz_id)"
+                        ,user_id=session["user_id"], username=session["user"], result=session["result"], teacher_name=teacher_name, quiz_name=quiz_name, category=category, quiz_id=quiz_id )
+
+            db.execute("INSERT INTO leaderboard(username, result, quiz_name, quiz_id) VALUES(:username, :result, :quiz_name, :quiz_id)"
+                        ,username=session["user"], result=session["result"], quiz_name=quiz_name, quiz_id=quiz_id)
+
+            leader= db.execute("SELECT * FROM leaderboard ORDER BY [result] DESC LIMIT 3")
+            return render_template("leaderboard.html", leader = leader)
 
 
 # @app.route("/room", methods=["GET", "POST"])
