@@ -253,7 +253,7 @@ def register():
 # return results of student
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    result_sql = db.execute("SELECT username, result, room_name, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
+    result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
     return render_template("result.html", result_sql=result_sql)
 
 def errorhandler(e):

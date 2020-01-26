@@ -14,33 +14,24 @@
     <body>
         {% if session.user_id %}
             <div class="navbar">
-                <a href="" >Logout</a>
                 <img src = "logo.png">
                 <a href="/logout" >Logout</a>
                 <a href = "FAQ">FAQ</a>
 
 
                 <div class="right">
-                    <a href="index">Home</a>
-                    <a href="room">Room</a>
+                    <a href="student_index">Home</a>
                     <a href="result">Results</a>
                     <a href="search">Search</a>
                 </div>
             </div>
         {% else %}
             <div class="navbar">
-                <div class="dropdown">
-                    <button class="dropbtn">Login</button>
-                    <div class="dropdown-content">
-                        <a href="login">Teacher Login</a>
-                        <a href="login">Student Login</a>
-                    </div>
-                </div>
+                <a href="login">Login</a>
                 <a href="register">Register</a>
                 <a href = "FAQ">FAQ</a>
                 <div class="right">
                     <a href="student_index">Home</a>
-                    <a href="room">Room</a>
                     <a href="result">Results</a>
 
                 </div>
