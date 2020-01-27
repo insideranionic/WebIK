@@ -7,17 +7,17 @@
 {% block main %}
 
 <form action="/quiz" method = "post">
+<div class="question">
 {{question}}
+</div>
 <input type="hidden" name="question_hidden" value="{{question}}" />
-<select name='answer'>
-{% for answers in answers %}
 
-    <option value="{{ answers}}">{{ answers}}</option>
+{% for answers in answers %}
+    <div class="btn-group">
+    <button type="input" name = "answer" value = {{answers}} >{{answers}}</button>
+    </div>
 
 {% endfor %}
- </select>
- <input type="submit" value="next">
- </form>
 
 {% endblock %}
 

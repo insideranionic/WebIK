@@ -5,21 +5,18 @@
 {% endblock %}
 
 {% block main %}
-
-    <table class= "table table-striped">
+    {% for lead in leader %}
+    <table class= "table table-striped" align = "center">
         <thead>
-            <th>quiz_name</th>
-            <th>Room_name</th>
+            <th>Name</th>
             <th>Score</th>
         </thead>
         <tbody>
             <tr>
-                <td>naampie</td>
-                <td>nummer</td>
-                <td>scores</td>
+            <td>{{lead.username}}</td>
+            <td>{{lead.result}}</td>
             </tr>
         </tbody>
-
     </table>
-
+    {% endfor %}
 {% endblock %}
