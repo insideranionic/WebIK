@@ -19,14 +19,17 @@
 
 
                 <div class="right">
-                    {% if session.key == "teacher"s %}
+                    {% if session.key == "teacher" %}
                     <a href="homepage_2">Make Quiz</a>
-                    {% endif %}
+                    <a href="result">Results</a>
+                    {% elif session.key == "student" %}
                     <a href="result">Results</a>
                     <a href="search">Search</a>
-                    <a href="result">Results</a>
+                    {% endif %}
+
                 </div>
             </div>
+
             <a class = "logo" href="homepage">Facta</a>
         {% else %}
             <div class="navbar">
@@ -35,7 +38,7 @@
                 <a href="register">Register</a>
                 <a href = "FAQ">FAQ</a>
                 <div class="right">
-                    <a href="homepage">Home</a>
+                <a href="homepage">Home</a>
 
                 </div>
             </div>
