@@ -30,3 +30,10 @@ def convert(string):
 def convert_question(string):
     li = list(string.split("?"))
     return li
+
+def to_csv(i):
+    i = i.replace("[","");
+    i = i.replace("]","");
+    i = i.replace("'","");
+    i = i.replace(" ","");
+    return i

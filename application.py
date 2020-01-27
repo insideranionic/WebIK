@@ -11,8 +11,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
-from help_web import login_required, apology, convert, convert_question
+from help_web import apology, convert, convert_question, login_required, to_csv
 
 # Configure application
 app = Flask(__name__)
@@ -337,7 +336,7 @@ def change_password():
 def quiz():
 
     quiz_id= session["quiz_id"]
-    quiz_id= quiz_id[0]["quiz_id"]
+    quiz_id= quiz_id[0]["quiz_id"] #functie3
     quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id= :id", id = quiz_id)[0]
     quiz_answers = quiz_data['all_answer_sheets']
     quiz_questions = quiz_data["vragen_lijst"]
@@ -347,10 +346,12 @@ def quiz():
     #  make the quiz answers into a csv type output and convert it into a list
 
 
-    quiz_answers = quiz_answers.replace("[","");
-    quiz_answers = quiz_answers.replace("]","");
-    quiz_answers = quiz_answers.replace("'","");
-    quiz_answers = quiz_answers.replace(" ","");
+    # quiz_answers = quiz_answers.replace("[",""); #functie2
+    # quiz_answers = quiz_answers.replace("]","");
+    # quiz_answers = quiz_answers.replace("'","");
+    # quiz_answers = quiz_answers.replace(" ",""); #functie2
+
+    to_csv(quiz_answers)
     quiz_answer_list = convert(quiz_answers)
 
     # make the questions into a csv type output and convert it into a list
@@ -400,14 +401,18 @@ def quiz():
         new_question = int(question_value_dict[question]) + 1
 
         if new_question == len(question_value_dict) - 1:
-            teacher_name = db.execute("SELECT naam_teach FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
-            teacher_name= teacher_name[0]["naam_teach"]
 
-            quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
-            quiz_name= quiz_name[0]["naam_quiz"]
+            info = db.execute("SELECT naam_teach, naam_quiz, category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            teacher_name= info[0]["naam_teach"]
+            quiz_name= info[0]["naam_quiz"]
+            category= info[0]["category"]
 
-            category = db.execute("SELECT category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
-            category= category[0]["category"]
+            # quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            # quiz_name= quiz_name[0]["naam_quiz"]
+
+            # category = db.execute("SELECT category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            # category= category[0]["category"]
+
             db.execute("INSERT INTO student_results(id, username, result, teacher_name, quiz_name, category, quiz_id) VALUES(:user_id, :username, :result, :teacher_name, :quiz_name, :category, :quiz_id)"
                         ,user_id=session["user_id"], username=session["user"], result=session["result"], teacher_name=teacher_name, quiz_name=quiz_name, category=category, quiz_id=quiz_id )
 
