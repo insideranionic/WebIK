@@ -168,13 +168,13 @@ def login():
             rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
                               username=request.form.get("username"))
 
-            # Set session key to 'teacher'
-            session['key'] = 'teacher'
+            session["key"] = "teacher"
 
         else:
             # Query database for student username
             rows = db.execute("SELECT * FROM student WHERE username = :username",
                               username=request.form.get("username"))
+            session["key"] = "student"
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
@@ -264,8 +264,14 @@ def register():
 # return results of student
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
-    return render_template("result.html", result_sql=result_sql)
+    session_role = session.get("key")
+    if session_role == "student":
+        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
+        return render_template("result.html", result_sql=result_sql)
+    else:
+        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where teacher_name = :user_id", user_id=session["user"])
+        return render_template("result.html", result_sql=result_sql)
+
 
 def errorhandler(e):
     """Handle error"""
@@ -415,19 +421,6 @@ def quiz():
                 session["result"] += 1
 
             return render_template("quiz.html", question = question , answers = answer_list)
-
-
-# @app.route("/room", methods=["GET", "POST"])
-# def room():
-
-#     if request.method == "POST":
-
-#         return redirect(url_for("quiz"))
-
-#     else:
-#         username_teach= session.get("quizes")
-#         quizes= db.execute("SELECT naam_quiz FROM teach_lijst WHERE naam_teach=:username_teach", username_teach=username_teach)
-#         return render_template("room.html", quizes = quizes)
 
 
 @app.route("/leaderboard")
