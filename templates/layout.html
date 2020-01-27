@@ -7,7 +7,8 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="static/style_home.css">
         <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
-
+        <script src="dropdown.js"></script>
+        <link rel="stylesheet" href="static/slide.css">
 
         <title>Facta: {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,8 +33,8 @@
                 <div class="dropdown">
                     <button class="dropbtn">Login</button>
                     <div class="dropdown-content">
-                        <a class = "teacher" href="login">Teacher Login</a>
-                        <a class = "student" href="login">Student Login</a>
+                        <a class = "teacher" href="login?option=teacher">Teacher Login</a>
+                        <a class = "student" href="login?option=student">Student Login</a>
                     </div>
                 </div>
                 <a href="register">Register</a>
