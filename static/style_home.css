@@ -309,7 +309,7 @@ footer {
   display: block;
   margin: 0 auto;
   text-align: center;
-  width: 50%;
+  width: 100%;
   background: #FFD2D2;
   font-family: 'Bangers';
   font-size: 20px;
@@ -322,7 +322,7 @@ footer {
   display: block;
   margin: 0 auto;
   text-align: center;
-  width: 80%;
+  width: 100%;
   background: white;
   font-family: 'Bangers';
   font-size: 20px;
@@ -334,7 +334,7 @@ footer {
   display: block;
   margin: 0 auto;
   text-align: center;
-  width: 50%;
+  width: 100%;
   background: #FFD2D2;
   font-family: 'Bangers';
   font-size: 20px;
