@@ -153,7 +153,7 @@ def login():
         # Ensure password was submitted
         elif not request.form.get("password"):
             return render_template("login.html", error_message="must provide password")
-            return apology("must provide username")
+
 
         # Ensure password was submitted
         elif not request.form.get("password"):

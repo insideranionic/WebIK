@@ -251,9 +251,8 @@ footer {
 
 .question {
   font-family: 'Bangers';
-  width: 150%;
+  text-align-last: center;
   font-size: 40px;
-
 }
 
 .center{

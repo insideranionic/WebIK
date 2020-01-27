@@ -5,13 +5,16 @@
 {% endblock %}
 
 {% block main %}
-
+        <div class= "leaderboard">What is the name of the quiz?</div>
+        <div class= "accountfield">
         <form class = "search" action="{{url_for('search')}}" method="POST">
         <div class="form-group">
             <input name="search" placeholder="Search quiz" type="text">
         </div>
+        <br>
         <div class= form-group>
             <button type="submit">Search</button>
+        </div>
         </div>
 
         </form>

@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+
      <form action="/room" method="GET">
         {% for quizes in room_quizes %}
          <a class="room" href="quiz">{{quizes}}</a>

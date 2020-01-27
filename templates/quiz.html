@@ -10,11 +10,12 @@
 <div class="question">
 {{question}}
 </div>
+<br>
 <input type="hidden" name="question_hidden" value="{{question}}" />
 
 {% for answers in answers %}
     <div class="btn-group">
-    <button type="input" name = "answer" value = {{answers}} >{{answers}}</button>
+    <button type="input" name = "answer" value = {{answers}} >{{answers}}</button><br>
     </div>
 
 {% endfor %}
