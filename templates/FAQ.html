@@ -25,6 +25,15 @@
         </p1>
   </div>
 </div>
+<div onclick="myFunction2()" class = "faq-3">
+  <h3>How to use Facta?</h1>
+  <div id = "faq-id-3" class = "faq-text">
+        <p1>Facta is fully focused on a students progress.
+        With Facta you can see the catergories of a subject you still have to work on.
+        So Facta doesn't only make learning more fun it also makes it a lot easier.
+        </p1>
+  </div>
+</div>
 <script>
 
 document.getElementById("faq").onclick = function() {myFunction()};
@@ -39,6 +48,13 @@ document.getElementById("faq-2").onclick = function() {myFunction2()};
 
 function myFunction2() {
   document.getElementById("faq-id-2").classList.toggle("show");
+}
+
+document.getElementById("faq-3").onclick = function() {myFunction2()};
+
+
+function myFunction2() {
+  document.getElementById("faq-id-3").classList.toggle("show");
 }
 </script>
 </body>

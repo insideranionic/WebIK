@@ -153,6 +153,11 @@ def login():
         # Ensure password was submitted
         elif not request.form.get("password"):
             return render_template("login.html", error_message="must provide password")
+            return apology("must provide username")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password",)
 
         # Check if user is registered as a teacher
         role = request.form.get("role")
@@ -169,6 +174,7 @@ def login():
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
             return render_template("login.html", error_message="invalid username and/or password")
+
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -260,7 +266,7 @@ def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    return apology(e.name, e.code)
+    return apology(e.name)
 
 
 @app.route("/change_password", methods=["GET", "POST"])
@@ -272,6 +278,7 @@ def change_password():
 
         # Ensure current password is not empty
         if not request.form.get("current_password"):
+
             return render_template("change_password.html", error_message="must provide current password")
 
         sess_role = session.get("key")
@@ -298,6 +305,10 @@ def change_password():
         if request.form.get("new_password") != request.form.get("new_password_repeat"):
             return render_template("change_password.html", error_message="new password and repitition must match")
 
+        # Ensure new password is not empty
+        if not request.form.get("new_password"):
+            return apology("must provide new password")
+
         # Update database with new password
         new_password = generate_password_hash(request.form.get("new_password"))
         db.execute("UPDATE users SET hash = :new_password WHERE id = :user_id",
@@ -309,12 +320,11 @@ def change_password():
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
 
-
-    quiz_data= db.execute("SELECT * FROM teach_lijst")[0]
-    quiz_answers = quiz_data['all_answer_sheets']
-    quiz_questions = quiz_data["vragen_lijst"]
     quiz_id= session["quiz_id"]
     quiz_id= quiz_id[0]["quiz_id"]
+    quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id =:id", id = quiz_id)[0]
+    quiz_answers = quiz_data['all_answer_sheets']
+    quiz_questions = quiz_data["vragen_lijst"]
 
 
     #  make the quiz answers into a csv type output and convert it into a list
@@ -393,7 +403,7 @@ def quiz():
             db.execute("INSERT INTO leaderboard(username, result, quiz_name, quiz_id) VALUES(:username, :result, :quiz_name, :quiz_id)"
                         ,username=session["user"], result=session["result"], quiz_name=quiz_name, quiz_id=quiz_id)
 
-            leader= db.execute("SELECT * FROM leaderboard ORDER BY [result] DESC LIMIT 3")
+            leader= db.execute("SELECT * FROM leaderboard WHERE quiz_id = :quiz_id ORDER BY [result] DESC LIMIT 3", quiz_id=quiz_id)
             return render_template("leaderboard.html", leader = leader)
 
 
