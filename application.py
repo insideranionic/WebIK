@@ -166,10 +166,12 @@ def login():
             # Query database for teacher username
             rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
                               username=request.form.get("username"))
+            session["key"] = "teacher"
         else:
             # Query database for student username
             rows = db.execute("SELECT * FROM student WHERE username = :username",
                               username=request.form.get("username"))
+            session["key"] = "student"
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
