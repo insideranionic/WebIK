@@ -27,3 +27,7 @@ def convert(string):
     li = list(string.split(","))
     return li
 
+def convert_question(string):
+    li = list(string.split("?"))
+    return li
+

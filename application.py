@@ -12,7 +12,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-from help_web import login_required, apology, convert
+from help_web import login_required, apology, convert, convert_question
 
 # Configure application
 app = Flask(__name__)
@@ -312,21 +312,27 @@ def quiz():
 
     quiz_id= session["quiz_id"]
     quiz_id= quiz_id[0]["quiz_id"]
-    quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id =:id", id = quiz_id)[0]
+    quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id= :id", id = quiz_id)[0]
     quiz_answers = quiz_data['all_answer_sheets']
     quiz_questions = quiz_data["vragen_lijst"]
 
 
+
     #  make the quiz answers into a csv type output and convert it into a list
+
+
     quiz_answers = quiz_answers.replace("[","");
     quiz_answers = quiz_answers.replace("]","");
     quiz_answers = quiz_answers.replace("'","");
     quiz_answers = quiz_answers.replace(" ","");
+    print(quiz_answers)
     quiz_answer_list = convert(quiz_answers)
 
     # make the questions into a csv type output and convert it into a list
-    quiz_questions = quiz_questions.replace("'",",");
-    question_list = convert(quiz_questions)
+    print(quiz_questions)
+    question_list = convert_question(quiz_questions)
+
+
 
     single_ans_sheet = []
     all_answer_sheets = []
@@ -336,7 +342,6 @@ def quiz():
     counter = 0
 
 
-
     # make a list with list(these contain the choices of the question)
     for answer in quiz_answer_list:
         counter += 1
@@ -344,6 +349,8 @@ def quiz():
         if counter % 4 == 0:
             all_answer_sheets.append(single_ans_sheet)
             single_ans_sheet = []
+
+
     # make a list of correct answers ( 3 is the location of the right answers in the list)
     for answers in all_answer_sheets:
         correct_answers.append(answers[3])
@@ -353,10 +360,12 @@ def quiz():
         question_value_dict[question] = question_index
         question_index += 1
 
-    x = 0
+
     for questions in question_list:
-        x += 1
         question_answer_dict[questions] = correct_answers[0]
+
+    print(all_answer_sheets)
+    print(question_answer_dict)
 
     if request.method == "GET":
         session["result"] = 0
@@ -368,17 +377,10 @@ def quiz():
         answer = request.form.get("answer")
         question = request.form.get("question_hidden")
         # -1 to retrieve index of next question
-        new_question = int(question_value_dict[question]) - 1
-        question = question_list[new_question]
-        answer_list =  all_answer_sheets[new_question]
-        answer_list = random.sample(answer_list, len(answer_list))
-        print(answer)
-        if answer in correct_answers:
-            session["result"] += 1
-        if new_question != 0:
-            return render_template("quiz.html", question = question , answers = answer_list)
-        else:
-
+        new_question = int(question_value_dict[question]) + 1
+        print(len(question_value_dict))
+        print(new_question)
+        if new_question == len(question_value_dict) - 1:
             teacher_name = db.execute("SELECT naam_teach FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
             teacher_name= teacher_name[0]["naam_teach"]
             print(teacher_name)
@@ -395,6 +397,17 @@ def quiz():
 
             leader= db.execute("SELECT * FROM leaderboard WHERE quiz_id = :quiz_id ORDER BY [result] DESC LIMIT 3", quiz_id=quiz_id)
             return render_template("leaderboard.html", leader = leader)
+
+        else:
+            question = question_list[new_question]
+            print(all_answer_sheets)
+            answer_list =  all_answer_sheets[new_question]
+            answer_list = random.sample(answer_list, len(answer_list))
+
+            if answer in correct_answers:
+                session["result"] += 1
+
+            return render_template("quiz.html", question = question , answers = answer_list)
 
 
 # @app.route("/room", methods=["GET", "POST"])
