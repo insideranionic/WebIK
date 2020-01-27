@@ -335,11 +335,9 @@ def quiz():
     quiz_answers = quiz_answers.replace("]","");
     quiz_answers = quiz_answers.replace("'","");
     quiz_answers = quiz_answers.replace(" ","");
-    print(quiz_answers)
     quiz_answer_list = convert(quiz_answers)
 
     # make the questions into a csv type output and convert it into a list
-    print(quiz_questions)
     question_list = convert_question(quiz_questions)
 
 
@@ -374,12 +372,8 @@ def quiz():
     for questions in question_list:
         question_answer_dict[questions] = correct_answers[0]
 
-    print(all_answer_sheets)
-    print(question_answer_dict)
-
     if request.method == "GET":
         session["result"] = 0
-        print(session["result"])
         answer_list = all_answer_sheets[0]
         question = question_list[0]
         return render_template("quiz.html", question = question , answers = answer_list)
@@ -388,12 +382,11 @@ def quiz():
         question = request.form.get("question_hidden")
         # -1 to retrieve index of next question
         new_question = int(question_value_dict[question]) + 1
-        print(len(question_value_dict))
-        print(new_question)
+
         if new_question == len(question_value_dict) - 1:
             teacher_name = db.execute("SELECT naam_teach FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
             teacher_name= teacher_name[0]["naam_teach"]
-            print(teacher_name)
+
             quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
             quiz_name= quiz_name[0]["naam_quiz"]
 
@@ -410,7 +403,6 @@ def quiz():
 
         else:
             question = question_list[new_question]
-            print(all_answer_sheets)
             answer_list =  all_answer_sheets[new_question]
             answer_list = random.sample(answer_list, len(answer_list))
 

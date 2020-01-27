@@ -304,3 +304,41 @@ footer {
   color:#FFD2D2;
 }
 
+.accountfield button {
+  border-bottom-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
+  background: #FFD2D2;
+  font-family: 'Bangers';
+  font-size: 20px;
+  border-radius: 10px;
+
+}
+
+.accountfield input {
+  border-bottom-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 80%;
+  background: white;
+  font-family: 'Bangers';
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.accountfield select{
+  border-bottom-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
+  background: #FFD2D2;
+  font-family: 'Bangers';
+  font-size: 20px;
+  border-radius: 10px;
+
+}
+
