@@ -394,7 +394,7 @@ def quiz():
             db.execute("INSERT INTO leaderboard(username, result, quiz_name, quiz_id) VALUES(:username, :result, :quiz_name, :quiz_id)"
                         ,username=session["user"], result=session["result"], quiz_name=quiz_name, quiz_id=quiz_id)
 
-            leader= db.execute("SELECT * FROM leaderboard ORDER BY [result] DESC LIMIT 3")
+            leader= db.execute("SELECT * FROM leaderboard WHERE quiz_id = :quiz_id ORDER BY [result] DESC LIMIT 3", quiz_id=quiz_id)
             return render_template("leaderboard.html", leader = leader)
 
 
