@@ -48,9 +48,10 @@ def index():
 
      # Get user's key
     session_role = session.get("key")
-
+    print(session_role)
     # Render teacher template if user is a teacher
     if session_role == "teacher":
+
         if request.method == "POST":
 
             # Get name of quiz
@@ -166,6 +167,10 @@ def login():
             # Query database for teacher username
             rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
                               username=request.form.get("username"))
+
+            # Set session key to 'teacher'
+            session['key'] = 'teacher'
+
         else:
             # Query database for student username
             rows = db.execute("SELECT * FROM student WHERE username = :username",
