@@ -19,7 +19,9 @@
 
 
                 <div class="right">
-                    <a href="student_index">Home</a>
+                    {% if session.role == teacher %}
+                        <a href="homepage_2">Make Quiz</a>
+                    {% endif %}
                     <a href="result">Results</a>
                     <a href="search">Search</a>
                     <a href="result">Results</a>

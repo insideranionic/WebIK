@@ -42,6 +42,11 @@ db = SQL("sqlite:///database.db")
 def homepage():
     return render_template("homepage.html")
 
+@app.route("/homepage_2", methods=["GET", "POST"])
+@login_required
+def homepage_2():
+    return redirect("/")
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
