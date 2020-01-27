@@ -53,7 +53,7 @@ def index():
 
      # Get user's key
     session_role = session.get("key")
-
+    
     # Render teacher template if user is a teacher
     if session_role == "teacher":
 
