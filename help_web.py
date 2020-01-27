@@ -30,4 +30,3 @@ def convert(string):
 def convert_question(string):
     li = list(string.split("?"))
     return li
-
