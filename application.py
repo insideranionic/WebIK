@@ -310,12 +310,11 @@ def change_password():
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
 
-
-    quiz_data= db.execute("SELECT * FROM teach_lijst")[0]
-    quiz_answers = quiz_data['all_answer_sheets']
-    quiz_questions = quiz_data["vragen_lijst"]
     quiz_id= session["quiz_id"]
     quiz_id= quiz_id[0]["quiz_id"]
+    quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id =:id", id = quiz_id)[0]
+    quiz_answers = quiz_data['all_answer_sheets']
+    quiz_questions = quiz_data["vragen_lijst"]
 
 
     #  make the quiz answers into a csv type output and convert it into a list
