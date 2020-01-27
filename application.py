@@ -148,11 +148,11 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password",)
 
         # Check if user is registered as a teacher
         role = request.form.get("role")
@@ -168,7 +168,7 @@ def login():
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+            return apology("invalid username and/or password") and render_template("login.html", apology = apology)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -198,19 +198,19 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 400)
+            return apology("must provide username" )
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 400)
+            return apology("must provide password")
 
         # Ensure password repetition was submitted
         elif not request.form.get("confirmation"):
-            return apology("password repeat empty", 400)
+            return apology("password repeat empty")
 
         # Ensure password and password rep. is the same
         elif request.form.get("password") != request.form.get("confirmation"):
-            return apology("password and password repeat must be the same", 400)
+            return apology("password and password repeat must be the same")
 
         password = generate_password_hash(request.form.get("password"))
         username = request.form.get("username")
@@ -238,10 +238,10 @@ def register():
 
         # Ensure user selects either teacher or student
         else:
-            return apology("You must choose a role", 400)
+            return apology("You must choose a role")
 
         if not result:
-            return apology("username taken", 400)
+            return apology("username taken")
 
         session["user_id"] = result
 
@@ -260,7 +260,7 @@ def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    return apology(e.name, e.code)
+    return apology(e.name)
 
 
 @app.route("/change_password", methods=["GET", "POST"])
@@ -272,7 +272,7 @@ def change_password():
 
         # Ensure current password is not empty
         if not request.form.get("current_password"):
-            return apology("must provide current password", 400)
+            return apology("must provide current password")
 
         sess_role = session.get("key")
         if sess_role == 'teacher':
@@ -284,19 +284,20 @@ def change_password():
 
         # Ensure current password is correct
         if not check_password_hash(password[0]["hash"], request.form.get("current_password")):
-            return apology("invalid password", 400)
+            return apology("invalid password")
 
         # Ensure new password is not empty
         if not request.form.get("new_password"):
-            return apology("must provide new password", 400)
+            return apology("must provide new password")
 
         # Ensure new password repeated is not empty
         if not request.form.get("new_password_repeat"):
-            return apology("must provide new password repeat", 400)
+            return apology("must provide new password repeat")
 
         # Ensure new password and password repeat match
         if request.form.get("new_password") != request.form.get("new_password_repeat"):
-            return apology("new password and repitition must match", 400)
+            return apology("new password and repitition must match")
+
 
         # Update database with new password
         new_password = generate_password_hash(request.form.get("new_password"))

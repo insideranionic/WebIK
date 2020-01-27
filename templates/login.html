@@ -10,8 +10,8 @@
         <div class="form-group">
             <select class="form-control" name="role">
                 <option disabled selected value="role">Role</option>
-                        <option value="teacher">Teacher</option>
-                        <option value="student">Student</option>
+                        <option id ="selectRole" value="teacher">Teacher</option>
+                        <!--<option id = "selectRole" value="student">Student</option>-->
             </select>
         </div>
         <div class="form">
@@ -25,6 +25,15 @@
     </div>
 </div>
 </div>
+<script>
 
+window.addEventListener('load', function() {
+  var role = window.location.search.split('=')[1].split(',');
+  if (role) {
+    document.getElementById('selectRole').value = role;
+  }
+});
+
+</script>
 </body>
 {% endblock %}
