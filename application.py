@@ -11,7 +11,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from help_web import apology, convert, convert_question, login_required, to_csv, quiz_list, quiz_id, leaderbord, leaderbord_insert, student_result_insert, info_teach, check_changepass, password_s, password_t
+from help_web import apology, convert, convert_question, login_required, to_csv, quiz_list, quiz_id, leaderbord, leaderbord_insert, student_result_insert, info_teach, check_changepass, password_s, password_t, res, check_register
 
 # Configure application
 app = Flask(__name__)
@@ -211,21 +211,8 @@ def register():
     """Register user"""
     if request.method == "POST":
 
-        # Ensure username was submitted
-        if not request.form.get("username"):
-            return render_template("register.html", error_message="must provide username")
-
-        # Ensure password was submitted
-        elif not request.form.get("password"):
-            return render_template("register.html", error_message="must provide password")
-
-        # Ensure password repetition was submitted
-        elif not request.form.get("confirmation"):
-            return render_template("register.html", error_message="password repeat empty")
-
-        # Ensure password and password rep. is the same
-        elif request.form.get("password") != request.form.get("confirmation"):
-            return render_template("register.html", error_message="password and password repeat must be the same")
+        if check_register() != True:
+            return render_template("register.html", error_message="Invalid")
 
         password = generate_password_hash(request.form.get("password"))
         username = request.form.get("username")
@@ -268,13 +255,9 @@ def register():
 
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    session_role = session.get("key")
-    if session_role == "student":
-        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
-        return render_template("result.html", result_sql=result_sql)
-    else:
-        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where teacher_name = :user_id", user_id=session["user"])
-        return render_template("result.html", result_sql=result_sql)
+
+    result_sql= res()
+    return render_template("result.html", result_sql=result_sql)
 
 
 def errorhandler(e):

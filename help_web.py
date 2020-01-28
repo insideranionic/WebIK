@@ -82,23 +82,43 @@ def check_changepass(password):
 
     # Ensure current password is correct
     if not check_password_hash(password[0]["hash"], request.form.get("current_password")):
-        return render_template("change_password.html", error_message="invalid password")
+        return False
 
     # Ensure new password is not empty
     if not request.form.get("new_password"):
-        return render_template("change_password.html", error_message="must provide new password")
+        return False
 
     # Ensure new password repeated is not empty
     if not request.form.get("new_password_repeat"):
-        return render_template("change_password.html", error_message="must provide new password repeat")
+        return False
 
     # Ensure new password and password repeat match
     if request.form.get("new_password") != request.form.get("new_password_repeat"):
-        return render_template("change_password.html", error_message="new password and repitition must match")
+        return False
 
     # Ensure new password is not empty
     if not request.form.get("new_password"):
-        return apology("must provide new password")
+        return False
+
+    return True
+
+def check_register():
+
+    # Ensure username was submitted
+    if not request.form.get("username"):
+        return False
+
+    # Ensure password was submitted
+    elif not request.form.get("password"):
+        return False
+
+    # Ensure password repetition was submitted
+    elif not request.form.get("confirmation"):
+        return False
+
+    # Ensure password and password rep. is the same
+    elif request.form.get("password") != request.form.get("confirmation"):
+        return False
 
     return True
 
@@ -107,3 +127,12 @@ def password_t(id_num):
 
 def password_s(id_num):
     return db.execute("SELECT hash FROM student WHERE id = :user_id", user_id=id_num)
+
+def res():
+    session_role = session.get("key")
+    if session_role == "student":
+        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
+        return result_sql
+    else:
+        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where teacher_name = :user_id", user_id=session["user"])
+        return result_sql
