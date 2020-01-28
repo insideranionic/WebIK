@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="static/style_home.css">
         <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
 
-
         <title>Facta: {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -17,6 +16,7 @@
             <div class="navbar">
                 <a href="logout" >Logout</a>
                 <div class="right">
+                    <a href="change_password">Change password</a>
                     {% if session.key == "teacher" %}
                     <a href="homepage_2">Make Quiz</a>
                     <a href="result">Results</a>
