@@ -5,28 +5,22 @@
 {% endblock %}
 
 {% block main %}
-    <h1>{{ error_message }}</h1>
+    {% if error_message|length > 0 %}
+        <h1 class = "error">{{ error_message }}</h1>
+    {% endif %}
     <div class='accountfield'>
     <form action="/register" method="post" onsubmit="function(event){ event.preventDefault();}">
-        <div class="form-group">
             <select class="form-control" name="role">
                 <option disabled selected value="role">Role</option>
                         <option value="teacher">Teacher</option>
                         <option value="student">Student</option>
             </select>
-        </div>
         <br>
-        <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-        </div>
         <br>
-        <div class="form-group">
             <input class="form-control" name="password" placeholder="Password" type="password">
-        </div>
         <br>
-        <div class="form-group">
             <input class="form-control" name="confirmation" placeholder="Password Repeat" type="password">
-        </div>
         <br>
         <button class="btn btn-primary" type="submit">Register</button>
     </form>

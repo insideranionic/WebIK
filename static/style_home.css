@@ -106,12 +106,14 @@ footer {
 .footer{
   float: left;
   margin-left: 2%;
+  bottom: 1%;
 
 }
 
 .footer_right{
   float: right;
   margin-right: 2%;
+  bottom: 1%;
 
 }
 
@@ -152,17 +154,10 @@ footer {
   transform: translate(-50%);
   font-size: 37px;
   text-shadow: 1px 1px #FF0000;
-  display: box;
+  display: block;
 }
 
 
-.form-group {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: 2px solid red;
-  border-radius: 4px;
-}
 
 .table {
   border: 2px solid black;
@@ -328,13 +323,14 @@ footer {
 .accountfield button {
   border-bottom-style: none;
   display: block;
-  margin: 0 auto;
+  margin: 0;
   text-align: center;
   width: 100%;
   background: #FFD2D2;
   font-family: 'Bangers';
   font-size: 20px;
   border-radius: 10px;
+  border: 2px solid black;
 
 }
 
@@ -348,6 +344,7 @@ footer {
   font-family: 'Bangers';
   font-size: 20px;
   border-radius: 10px;
+  border: 2px solid black;
 }
 
 .accountfield select{
@@ -360,6 +357,49 @@ footer {
   font-family: 'Bangers';
   font-size: 20px;
   border-radius: 10px;
+  border: 2px solid black;
 
 }
 
+.accountfield {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+
+.faq_link {
+  position: fixed;
+  left: 50%;
+  bottom: 2%;
+  transform: translate(-50%);
+  font-size: 37px;
+  text-shadow: 1px 1px #FF0000;
+  margin: 0;
+}
+
+.error {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  border: 3px solid black;
+  background-color: white;
+  padding: 1%;
+  margin: 1%;
+  border-radius: 25px;
+}
+
+#home_box {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 10px inset grey;
+  border-radius: 40px 0px 40px 0px;
+  width: 50%;
+  height: 30%;
+  padding: 1%;
+  background-color: #ddd;
+}

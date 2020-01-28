@@ -15,12 +15,7 @@
     <body>
         {% if session.user_id %}
             <div class="navbar">
-                <img src = "logo.png">
-                <a href="/logout" >Logout</a>
-
                 <a href="logout" >Logout</a>
-                <a href = "FAQ">FAQ</a>
-
                 <div class="right">
                     {% if session.key == "teacher" %}
                     <a href="homepage_2">Make Quiz</a>
@@ -36,16 +31,13 @@
             <a class = "logo" href="homepage">Facta</a>
         {% else %}
             <div class="navbar">
-                <div class="dropdown">
                 <a href="login">Login</a>
                 <a href="register">Register</a>
                 <div class="right">
                 <a href="homepage">Home</a>
-
-                </div>
+            </div>
             </div>
             <a class = "logo" href="homepage">Facta</a>
-            </div>
         {% endif %}
 
 
@@ -67,7 +59,7 @@
         <div class = footer_space>
             <p class = footer_right>Contact: facta@gmail.com</p>
             <p class = footer>Facta 2020</p>
-            <p class= footer><a href = "FAQ">FAQ</a>
+            <p class= faq_link><a href = "FAQ">FAQ</a>
         </div>
     </footer>
 
