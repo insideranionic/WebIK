@@ -11,7 +11,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from help_web import apology, convert, convert_question, login_required, to_csv
+from help_web import apology, convert, convert_question, login_required, to_csv, quiz_list, quiz_id, leaderbord, leaderbord_insert, student_result_insert, info_teach, check_changepass
 
 # Configure application
 app = Flask(__name__)
@@ -36,15 +36,16 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
 
-
 @app.route("/homepage", methods=["GET", "POST"])
 def homepage():
     return render_template("homepage.html")
+
 
 @app.route("/homepage_2", methods=["GET", "POST"])
 @login_required
 def homepage_2():
     return redirect("/")
+
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -103,12 +104,6 @@ def index():
             db.execute("INSERT INTO teach_lijst(naam_teach, naam_quiz, category, vragen_lijst, correct_answers, all_answer_sheets) VALUES(:username_teacher, :name, :category, :quiz, :correct_answers, :all_answer_sheets)",
                         username_teacher=username_teacher, name=name, category=category, quiz=question_list, correct_answers=correct_answers, all_answer_sheets=all_answer_sheets)
 
-
-            # Add data to database
-            # db.execute("INSERT INTO new_quizes(amount_of_questions, difficulty, category, type, name, username_teacher) VALUES (:amount, :difficulty, :category, :type_q, :name, :username_teacher)",
-            #             amount=amount, difficulty=difficulty, category=category, type_q=type_q, name=name, username_teacher=username_teacher)
-
-
             return redirect("/")
         else:
             categorie= ["History","Politics", "Geography"]
@@ -141,6 +136,7 @@ def check():
     # If username passes every test return true
     return jsonify(True)
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -158,7 +154,6 @@ def login():
         # Ensure password was submitted
         elif not request.form.get("password"):
             return render_template("login.html", error_message="must provide password")
-
 
         # Ensure password was submitted
         elif not request.form.get("password"):
@@ -188,7 +183,6 @@ def login():
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
             return render_template("login.html", error_message="invalid username and/or password")
 
-
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
         session["user"] = request.form.get("username")
@@ -200,6 +194,7 @@ def login():
     else:
         return render_template("login.html")
 
+
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -209,6 +204,7 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -269,7 +265,7 @@ def register():
     else:
         return render_template("register.html")
 
-# return results of student
+
 @app.route("/result", methods=["GET", "POST"])
 def result():
     session_role = session.get("key")
@@ -304,34 +300,29 @@ def change_password():
         if sess_role == 'teacher':
             # Get password currently being used
             password = db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=session["user_id"])
+
+            if check_changepass(password) != True:
+                return render_template("change_password.html", error_message="must provide new password")
+
+            # Update database with new password
+            new_password = generate_password_hash(request.form.get("new_password"))
+            db.execute("UPDATE Teacher SET hash = :new_password WHERE id = :user_id",
+                        user_id=session["user_id"], new_password=new_password)
+            return render_template("change_password.html")
+
         else:
             # Get password currently being used
             password = db.execute("SELECT hash FROM student WHERE id = :user_id", user_id=session["user_id"])
 
-        # Ensure current password is correct
-        if not check_password_hash(password[0]["hash"], request.form.get("current_password")):
-            return render_template("change_password.html", error_message="invalid password")
+            if check_changepass(password) != True:
+                return render_template("change_password.html", error_message="must provide new password")
 
-        # Ensure new password is not empty
-        if not request.form.get("new_password"):
-            return render_template("change_password.html", error_message="must provide new password")
+            # Update database with new password
+            new_password = generate_password_hash(request.form.get("new_password"))
+            db.execute("UPDATE student SET hash = :new_password WHERE id = :user_id",
+                        user_id=session["user_id"], new_password=new_password)
 
-        # Ensure new password repeated is not empty
-        if not request.form.get("new_password_repeat"):
-            return render_template("change_password.html", error_message="must provide new password repeat")
-
-        # Ensure new password and password repeat match
-        if request.form.get("new_password") != request.form.get("new_password_repeat"):
-            return render_template("change_password.html", error_message="new password and repitition must match")
-
-        # Ensure new password is not empty
-        if not request.form.get("new_password"):
-            return apology("must provide new password")
-
-        # Update database with new password
-        new_password = generate_password_hash(request.form.get("new_password"))
-        db.execute("UPDATE users SET hash = :new_password WHERE id = :user_id",
-                    user_id=session["user_id"], new_password=new_password)
+            return render_template("change_password.html")
 
     else:
         return render_template("change_password.html")
@@ -345,23 +336,12 @@ def quiz():
     quiz_answers = quiz_data['all_answer_sheets']
     quiz_questions = quiz_data["vragen_lijst"]
 
-
-
     #  make the quiz answers into a csv type output and convert it into a list
-
-
-    # quiz_answers = quiz_answers.replace("[",""); #functie2
-    # quiz_answers = quiz_answers.replace("]","");
-    # quiz_answers = quiz_answers.replace("'","");
-    # quiz_answers = quiz_answers.replace(" ",""); #functie2
-
     to_csv(quiz_answers)
     quiz_answer_list = convert(quiz_answers)
 
     # make the questions into a csv type output and convert it into a list
     question_list = convert_question(quiz_questions)
-
-
 
     single_ans_sheet = []
     all_answer_sheets = []
@@ -369,7 +349,6 @@ def quiz():
     question_value_dict = {}
     question_answer_dict = {}
     counter = 0
-
 
     # make a list with list(these contain the choices of the question)
     for answer in quiz_answer_list:
@@ -379,7 +358,6 @@ def quiz():
             all_answer_sheets.append(single_ans_sheet)
             single_ans_sheet = []
 
-
     # make a list of correct answers ( 3 is the location of the right answers in the list)
     for answers in all_answer_sheets:
         correct_answers.append(answers[3])
@@ -388,7 +366,6 @@ def quiz():
     for question in question_list:
         question_value_dict[question] = question_index
         question_index += 1
-
 
     for questions in question_list:
         question_answer_dict[questions] = correct_answers[0]
@@ -401,29 +378,22 @@ def quiz():
     else:
         answer = request.form.get("answer")
         question = request.form.get("question_hidden")
+
         # -1 to retrieve index of next question
         new_question = int(question_value_dict[question]) + 1
 
         if new_question == len(question_value_dict) - 1:
 
-            info = db.execute("SELECT naam_teach, naam_quiz, category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
-            teacher_name= info[0]["naam_teach"]
-            quiz_name= info[0]["naam_quiz"]
-            category= info[0]["category"]
+            # info = db.execute("SELECT naam_teach, naam_quiz, category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            info = info_teach(quiz_id)
+            teacher_name= info["name"]
+            quiz_name= info["quiz_naam"]
+            category= info["category"]
 
-            # quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
-            # quiz_name= quiz_name[0]["naam_quiz"]
+            student_result_insert(session["user_id"], session["user"], session["result"], teacher_name, quiz_name, category, quiz_id)
+            leaderbord_insert(session["user"], session["result"], quiz_name, quiz_id)
 
-            # category = db.execute("SELECT category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
-            # category= category[0]["category"]
-
-            db.execute("INSERT INTO student_results(id, username, result, teacher_name, quiz_name, category, quiz_id) VALUES(:user_id, :username, :result, :teacher_name, :quiz_name, :category, :quiz_id)"
-                        ,user_id=session["user_id"], username=session["user"], result=session["result"], teacher_name=teacher_name, quiz_name=quiz_name, category=category, quiz_id=quiz_id )
-
-            db.execute("INSERT INTO leaderboard(username, result, quiz_name, quiz_id) VALUES(:username, :result, :quiz_name, :quiz_id)"
-                        ,username=session["user"], result=session["result"], quiz_name=quiz_name, quiz_id=quiz_id)
-
-            leader= db.execute("SELECT * FROM leaderboard WHERE quiz_id = :quiz_id ORDER BY [result] DESC LIMIT 3", quiz_id=quiz_id)
+            leader = leaderbord(quiz_id)
             return render_template("leaderboard.html", leader = leader)
 
         else:
@@ -449,6 +419,7 @@ def leaderboard():
     else:
         return render_template("leaderboard.html")
 
+
 @app.route("/search", methods=["GET", "POST"])
 def search():
     """search for room"""
@@ -457,12 +428,12 @@ def search():
     if request.method == "POST":
 
         name = request.form.get("search")
-        quizes = db.execute("SELECT naam_quiz FROM teach_lijst")
+        quizes = quiz_list()
         if name not in quizes:
             return render_template("search.html", error_message="quiz doesn't exist, try again")
 
-        quiz_id= db.execute("SELECT quiz_id FROM teach_lijst WHERE naam_quiz=:name", name=name)
-        session["quiz_id"] = quiz_id
+        quiz_id_num = quiz_id(name)
+        session["quiz_id"] = quiz_id_num
         return redirect(url_for("quiz"))
 
     # User reached route via GET (as by clicking a link or via redirect)
