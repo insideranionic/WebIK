@@ -164,6 +164,10 @@ def login():
         elif not request.form.get("password"):
             return apology("must provide password",)
 
+        # ensure user submitted role
+        if not request.form.get("role"):
+            return render_template("login.html", error_message="must provide role")
+
         # Check if user is registered as a teacher
         role = request.form.get("role")
 
