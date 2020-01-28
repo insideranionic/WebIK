@@ -154,7 +154,7 @@ footer {
   text-shadow: 1px 1px #FF0000;
   display: box;
 }
-}
+
 
 .form-group {
   width: 100%;
@@ -202,7 +202,29 @@ footer {
   background-color: #ddd
 }
 
+.faq-3 {
+  border: 3px solid black;
+  border-radius: 25px;
+  padding: 1%;
+  background-color: #FFD2D2;
+  width: 60%;
+  margin: 1%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+
+}
+
+.faq-3:hover {
+  background-color: #ddd
+}
+
 .faq-text {
+  display: none;
+  color: black;
+}
+
+.faq-text-2 {
   display: none;
   color: black;
 }

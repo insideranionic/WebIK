@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<body>
+
 
 <div onclick="myFunction()" class = "faq">
   <h3>How does the game work?</h1>
@@ -25,7 +25,7 @@
         </p1>
   </div>
 </div>
-<div onclick="myFunction2()" class = "faq-3">
+<div onclick="myFunction3()" class = "faq-3">
   <h3>How to use Facta?</h1>
   <div id = "faq-id-3" class = "faq-text">
         <p1>Facta is fully focused on a students progress.
@@ -50,10 +50,10 @@ function myFunction2() {
   document.getElementById("faq-id-2").classList.toggle("show");
 }
 
-document.getElementById("faq-3").onclick = function() {myFunction2()};
+document.getElementById("faq-3").onclick = function() {myFunction3()};
 
 
-function myFunction2() {
+function myFunction3() {
   document.getElementById("faq-id-3").classList.toggle("show");
 }
 </script>
