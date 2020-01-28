@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+        <h1>{{ error_message }}</h1>
         <div class= "leaderboard">What is the name of the quiz?</div>
         <div class= "accountfield">
         <form class = "search" action="{{url_for('search')}}" method="POST">

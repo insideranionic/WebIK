@@ -164,6 +164,10 @@ def login():
         elif not request.form.get("password"):
             return apology("must provide password",)
 
+        # ensure user submitted role
+        if not request.form.get("role"):
+            return render_template("login.html", error_message="must provide role")
+
         # Check if user is registered as a teacher
         role = request.form.get("role")
 
@@ -260,7 +264,7 @@ def register():
 
         session["user_id"] = result
 
-        return redirect("/")
+        return redirect("/login")
 
     else:
         return render_template("register.html")
@@ -453,6 +457,10 @@ def search():
     if request.method == "POST":
 
         name = request.form.get("search")
+        quizes = db.execute("SELECT naam_quiz FROM teach_lijst")
+        if name not in quizes:
+            return render_template("search.html", error_message="quiz doesn't exist, try again")
+
         quiz_id= db.execute("SELECT quiz_id FROM teach_lijst WHERE naam_quiz=:name", name=name)
         session["quiz_id"] = quiz_id
         return redirect(url_for("quiz"))
