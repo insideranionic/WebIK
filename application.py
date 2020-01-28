@@ -11,7 +11,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from help_web import apology, convert, convert_question, login_required, to_csv, quiz_list, quiz_id, leaderbord, leaderbord_insert, student_result_insert, info_teach, check_changepass
+from help_web import apology, convert, convert_question, login_required, to_csv, quiz_list, quiz_id, leaderbord, leaderbord_insert, student_result_insert, info_teach, check_changepass, password_s, password_t
 
 # Configure application
 app = Flask(__name__)
@@ -299,7 +299,7 @@ def change_password():
         sess_role = session.get("key")
         if sess_role == 'teacher':
             # Get password currently being used
-            password = db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=session["user_id"])
+            password = password_t(session["user_id"])
 
             if check_changepass(password) != True:
                 return render_template("change_password.html", error_message="must provide new password")
@@ -312,7 +312,7 @@ def change_password():
 
         else:
             # Get password currently being used
-            password = db.execute("SELECT hash FROM student WHERE id = :user_id", user_id=session["user_id"])
+            password = password_s(session["user_id"])
 
             if check_changepass(password) != True:
                 return render_template("change_password.html", error_message="must provide new password")

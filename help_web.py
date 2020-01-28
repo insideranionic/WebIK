@@ -102,3 +102,8 @@ def check_changepass(password):
 
     return True
 
+def password_t(id_num):
+    return db.execute("SELECT hash FROM Teacher WHERE id = :user_id", user_id=id_num)
+
+def password_s(id_num):
+    return db.execute("SELECT hash FROM student WHERE id = :user_id", user_id=id_num)
