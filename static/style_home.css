@@ -251,13 +251,93 @@ footer {
 
 .question {
   font-family: 'Bangers';
-  width: 150%;
+  text-align-last: center;
   font-size: 40px;
-
 }
 
 .center{
   margin: 0 auto
 }
 
+
+.firstplace{
+  text-align: center;
+  margin-top:1%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+  background:#FFE881;
+  padding: 10px;
+  border-radius: 25px
+
+}
+
+.secondplace{
+  text-align: center;
+  margin-bottom:auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+  background:#BCBCBC;
+  padding: 10px;
+  border-radius: 25px
+}
+
+.thirdplace{
+  text-align: center;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+  background:#DA953C;
+  padding: 10px;
+  border-radius: 25px
+}
+
+.leaderboard{
+  font-size: 100px;
+  text-align: center;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  color:#FFD2D2;
+}
+
+.accountfield button {
+  border-bottom-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  background: #FFD2D2;
+  font-family: 'Bangers';
+  font-size: 20px;
+  border-radius: 10px;
+
+}
+
+.accountfield input {
+  border-bottom-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  background: white;
+  font-family: 'Bangers';
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.accountfield select{
+  border-bottom-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  background: #FFD2D2;
+  font-family: 'Bangers';
+  font-size: 20px;
+  border-radius: 10px;
+
+}
 

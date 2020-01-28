@@ -11,8 +11,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
-from help_web import login_required, apology, convert
+from help_web import apology, convert, convert_question, login_required, to_csv
 
 # Configure application
 app = Flask(__name__)
@@ -42,6 +41,11 @@ db = SQL("sqlite:///database.db")
 def homepage():
     return render_template("homepage.html")
 
+@app.route("/homepage_2", methods=["GET", "POST"])
+@login_required
+def homepage_2():
+    return redirect("/")
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -51,6 +55,7 @@ def index():
 
     # Render teacher template if user is a teacher
     if session_role == "teacher":
+
         if request.method == "POST":
 
             # Get name of quiz
@@ -148,7 +153,12 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username")
+            return render_template("login.html", error_message="must provide username")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return render_template("login.html", error_message="must provide password")
+
 
         # Ensure password was submitted
         elif not request.form.get("password"):
@@ -161,14 +171,19 @@ def login():
             # Query database for teacher username
             rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
                               username=request.form.get("username"))
+
+            session["key"] = "teacher"
+
         else:
             # Query database for student username
             rows = db.execute("SELECT * FROM student WHERE username = :username",
                               username=request.form.get("username"))
+            session["key"] = "student"
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password") and render_template("login.html", apology = apology)
+            return render_template("login.html", error_message="invalid username and/or password")
+
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -198,19 +213,19 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username" )
+            return render_template("register.html", error_message="must provide username")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password")
+            return render_template("register.html", error_message="must provide password")
 
         # Ensure password repetition was submitted
         elif not request.form.get("confirmation"):
-            return apology("password repeat empty")
+            return render_template("register.html", error_message="password repeat empty")
 
         # Ensure password and password rep. is the same
         elif request.form.get("password") != request.form.get("confirmation"):
-            return apology("password and password repeat must be the same")
+            return render_template("register.html", error_message="password and password repeat must be the same")
 
         password = generate_password_hash(request.form.get("password"))
         username = request.form.get("username")
@@ -238,10 +253,10 @@ def register():
 
         # Ensure user selects either teacher or student
         else:
-            return apology("You must choose a role")
+            return render_template("register.html", error_message="You must choose a role")
 
         if not result:
-            return apology("username taken")
+            return render_template("register.html", error_message="username taken")
 
         session["user_id"] = result
 
@@ -253,8 +268,14 @@ def register():
 # return results of student
 @app.route("/result", methods=["GET", "POST"])
 def result():
-    result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
-    return render_template("result.html", result_sql=result_sql)
+    session_role = session.get("key")
+    if session_role == "student":
+        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where id = :user_id", user_id=session["user_id"])
+        return render_template("result.html", result_sql=result_sql)
+    else:
+        result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where teacher_name = :user_id", user_id=session["user"])
+        return render_template("result.html", result_sql=result_sql)
+
 
 def errorhandler(e):
     """Handle error"""
@@ -272,7 +293,8 @@ def change_password():
 
         # Ensure current password is not empty
         if not request.form.get("current_password"):
-            return apology("must provide current password")
+
+            return render_template("change_password.html", error_message="must provide current password")
 
         sess_role = session.get("key")
         if sess_role == 'teacher':
@@ -284,20 +306,23 @@ def change_password():
 
         # Ensure current password is correct
         if not check_password_hash(password[0]["hash"], request.form.get("current_password")):
-            return apology("invalid password")
+            return render_template("change_password.html", error_message="invalid password")
+
+        # Ensure new password is not empty
+        if not request.form.get("new_password"):
+            return render_template("change_password.html", error_message="must provide new password")
+
+        # Ensure new password repeated is not empty
+        if not request.form.get("new_password_repeat"):
+            return render_template("change_password.html", error_message="must provide new password repeat")
+
+        # Ensure new password and password repeat match
+        if request.form.get("new_password") != request.form.get("new_password_repeat"):
+            return render_template("change_password.html", error_message="new password and repitition must match")
 
         # Ensure new password is not empty
         if not request.form.get("new_password"):
             return apology("must provide new password")
-
-        # Ensure new password repeated is not empty
-        if not request.form.get("new_password_repeat"):
-            return apology("must provide new password repeat")
-
-        # Ensure new password and password repeat match
-        if request.form.get("new_password") != request.form.get("new_password_repeat"):
-            return apology("new password and repitition must match")
-
 
         # Update database with new password
         new_password = generate_password_hash(request.form.get("new_password"))
@@ -310,24 +335,29 @@ def change_password():
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
 
-
-    quiz_data= db.execute("SELECT * FROM teach_lijst")[0]
+    quiz_id= session["quiz_id"]
+    quiz_id= quiz_id[0]["quiz_id"] #functie3
+    quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id= :id", id = quiz_id)[0]
     quiz_answers = quiz_data['all_answer_sheets']
     quiz_questions = quiz_data["vragen_lijst"]
-    quiz_id= session["quiz_id"]
-    quiz_id= quiz_id[0]["quiz_id"]
+
 
 
     #  make the quiz answers into a csv type output and convert it into a list
-    quiz_answers = quiz_answers.replace("[","");
-    quiz_answers = quiz_answers.replace("]","");
-    quiz_answers = quiz_answers.replace("'","");
-    quiz_answers = quiz_answers.replace(" ","");
+
+
+    # quiz_answers = quiz_answers.replace("[",""); #functie2
+    # quiz_answers = quiz_answers.replace("]","");
+    # quiz_answers = quiz_answers.replace("'","");
+    # quiz_answers = quiz_answers.replace(" ",""); #functie2
+
+    to_csv(quiz_answers)
     quiz_answer_list = convert(quiz_answers)
 
     # make the questions into a csv type output and convert it into a list
-    quiz_questions = quiz_questions.replace("'",",");
-    question_list = convert(quiz_questions)
+    question_list = convert_question(quiz_questions)
+
+
 
     single_ans_sheet = []
     all_answer_sheets = []
@@ -337,7 +367,6 @@ def quiz():
     counter = 0
 
 
-
     # make a list with list(these contain the choices of the question)
     for answer in quiz_answer_list:
         counter += 1
@@ -345,6 +374,8 @@ def quiz():
         if counter % 4 == 0:
             all_answer_sheets.append(single_ans_sheet)
             single_ans_sheet = []
+
+
     # make a list of correct answers ( 3 is the location of the right answers in the list)
     for answers in all_answer_sheets:
         correct_answers.append(answers[3])
@@ -354,14 +385,12 @@ def quiz():
         question_value_dict[question] = question_index
         question_index += 1
 
-    x = 0
+
     for questions in question_list:
-        x += 1
         question_answer_dict[questions] = correct_answers[0]
 
     if request.method == "GET":
         session["result"] = 0
-        print(session["result"])
         answer_list = all_answer_sheets[0]
         question = question_list[0]
         return render_template("quiz.html", question = question , answers = answer_list)
@@ -369,46 +398,39 @@ def quiz():
         answer = request.form.get("answer")
         question = request.form.get("question_hidden")
         # -1 to retrieve index of next question
-        new_question = int(question_value_dict[question]) - 1
-        question = question_list[new_question]
-        answer_list =  all_answer_sheets[new_question]
-        answer_list = random.sample(answer_list, len(answer_list))
-        print(answer)
-        if answer in correct_answers:
-            session["result"] += 1
-        if new_question != 0:
-            return render_template("quiz.html", question = question , answers = answer_list)
-        else:
+        new_question = int(question_value_dict[question]) + 1
 
-            teacher_name = db.execute("SELECT naam_teach FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
-            teacher_name= teacher_name[0]["naam_teach"]
-            print(teacher_name)
-            quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
-            quiz_name= quiz_name[0]["naam_quiz"]
+        if new_question == len(question_value_dict) - 1:
 
-            category = db.execute("SELECT category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id)
-            category= category[0]["category"]
+            info = db.execute("SELECT naam_teach, naam_quiz, category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            teacher_name= info[0]["naam_teach"]
+            quiz_name= info[0]["naam_quiz"]
+            category= info[0]["category"]
+
+            # quiz_name = db.execute("SELECT naam_quiz FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            # quiz_name= quiz_name[0]["naam_quiz"]
+
+            # category = db.execute("SELECT category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
+            # category= category[0]["category"]
+
             db.execute("INSERT INTO student_results(id, username, result, teacher_name, quiz_name, category, quiz_id) VALUES(:user_id, :username, :result, :teacher_name, :quiz_name, :category, :quiz_id)"
                         ,user_id=session["user_id"], username=session["user"], result=session["result"], teacher_name=teacher_name, quiz_name=quiz_name, category=category, quiz_id=quiz_id )
 
             db.execute("INSERT INTO leaderboard(username, result, quiz_name, quiz_id) VALUES(:username, :result, :quiz_name, :quiz_id)"
                         ,username=session["user"], result=session["result"], quiz_name=quiz_name, quiz_id=quiz_id)
 
-            leader= db.execute("SELECT * FROM leaderboard ORDER BY [result] DESC LIMIT 3")
+            leader= db.execute("SELECT * FROM leaderboard WHERE quiz_id = :quiz_id ORDER BY [result] DESC LIMIT 3", quiz_id=quiz_id)
             return render_template("leaderboard.html", leader = leader)
 
+        else:
+            question = question_list[new_question]
+            answer_list =  all_answer_sheets[new_question]
+            answer_list = random.sample(answer_list, len(answer_list))
 
-# @app.route("/room", methods=["GET", "POST"])
-# def room():
+            if answer in correct_answers:
+                session["result"] += 1
 
-#     if request.method == "POST":
-
-#         return redirect(url_for("quiz"))
-
-#     else:
-#         username_teach= session.get("quizes")
-#         quizes= db.execute("SELECT naam_quiz FROM teach_lijst WHERE naam_teach=:username_teach", username_teach=username_teach)
-#         return render_template("room.html", quizes = quizes)
+            return render_template("quiz.html", question = question , answers = answer_list)
 
 
 @app.route("/leaderboard")

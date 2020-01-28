@@ -6,21 +6,27 @@
 
 {% block main %}
     <div class = "rounded">
+        <div class="accountfield">
     <form class = "login" action="/login" method="post">
         <div class="form-group">
             <select class="form-control" name="role">
                 <option disabled selected value="role">Role</option>
-                        <option id ="selectRole" value="teacher">Teacher</option>
-                        <!--<option id = "selectRole" value="student">Student</option>-->
+                        <option name="role" value="teacher">Teacher</option>
+                        <option name="role" value="student">Student</option>
             </select>
         </div>
+        <br>
         <div class="form">
             <input name="username" placeholder="Username" type="text">
         </div>
+        <br>
         <div class="form">
             <input name="password" placeholder="Password" type="password">
         </div>
+        <br>
+
         <button class="button_login">Log In</button>
+        </div>
     </form>
     </div>
 </div>

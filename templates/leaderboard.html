@@ -5,18 +5,32 @@
 {% endblock %}
 
 {% block main %}
-    {% for lead in leader %}
-    <table class= "table table-striped" align = "center">
-        <thead>
-            <th>Name</th>
-            <th>Score</th>
-        </thead>
-        <tbody>
-            <tr>
-            <td>{{lead.username}}</td>
-            <td>{{lead.result}}</td>
-            </tr>
-        </tbody>
-    </table>
-    {% endfor %}
+            {% if leader|length < 3 %}
+            <div class="leaderboard">Leaderboard</div>
+            <br>
+            <div class="firstplace">
+            {{leader[0].username}}<br>
+            <h3>Score: {{leader[0].result}}</h3>
+            </div>
+            {% else %}
+            <div class="leaderboard">Leaderboard</div>
+            <br>
+            <div class="firstplace">
+            {{leader[0].username}}<br>
+            <h3>Score: {{leader[0].result}}</h3>
+            </div>
+            <br>
+            <div class="secondplace">
+            {{leader[1].username}}<br>
+            <h3>Score: {{leader[1].result}}</h3>
+            </div>
+            <br>
+            <div class="thirdplace">
+            {{leader[2].username}}<br>
+            <h3>Score: {{leader[2].result}}</h3>
+            {% endif %}
+
+            </div>
+
+
 {% endblock %}

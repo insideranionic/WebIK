@@ -7,8 +7,11 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="static/style_home.css">
         <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+<<<<<<< HEAD
         <script src="dropdown.js"></script>
         <link rel="stylesheet" href="static/slide.css">
+=======
+>>>>>>> 8f3bd756f45bac007c2bb5bc05e289373da2353e
 
         <title>Facta: {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,24 +26,25 @@
                 <a href = "FAQ">FAQ</a>
 
                 <div class="right">
-                    <a href="student_index">Home</a>
+                    {% if session.key == "teacher" %}
+                    <a href="homepage_2">Make Quiz</a>
+                    <a href="result">Results</a>
+                    {% elif session.key == "student" %}
                     <a href="result">Results</a>
                     <a href="search">Search</a>
+                    {% endif %}
+
                 </div>
             </div>
+
             <a class = "logo" href="homepage">Facta</a>
         {% else %}
             <div class="navbar">
                 <div class="dropdown">
-                    <button class="dropbtn">Login</button>
-                    <div class="dropdown-content">
-                        <a class = "teacher" href="login?option=teacher">Teacher Login</a>
-                        <a class = "student" href="login?option=student">Student Login</a>
-                    </div>
+                <a href="login">Login</a>
                 <a href="register">Register</a>
                 <div class="right">
-                    <a href="homepage">Home</a>
-                    <a href="result">Results</a>
+                <a href="homepage">Home</a>
 
                 </div>
             </div>

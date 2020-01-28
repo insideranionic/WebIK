@@ -2,10 +2,12 @@
 
 ## Samenvatting
 
-- Wij gaan een trivia web app maken die gefocust is op leraren en leerlingen.
-  De website zal Fakta heten.
-  Hierin zullen gebruikers het tegen elkaar opnemen door trivia vragen omstebeurt te beantwoorden.
-  Er zullen verschillende categorieën zijn voor vragen (denk hierbij aan examenvakken).
+- Wij hebben een trivia web app gemaakt die gefocust is op leraren en leerlingen.
+  Het doel van Fakta is om kinderen voor te bereiden op de CITO toets waar de vragen ook meerkeuze zijn.
+  De website heet Fakta afkomstig van het Zweedse woord voor weetje.
+  Hierin kan je op een king of the hill achtige wijze individueel je vragen maken.
+  Als de quiz klaar is kan je je resultaten vergelijken met andere op het leaderboard.
+  Er zijn verschillende vakken voor de quiz zodat je kan zien waar je nog aan moet werken.
   Wat onze trivia uniek maakt is dat de leraar de voortgang van zijn leerlingen kan bekijken
   en zo kan de leraar nog extra aandacht besteden op categorieën die minder goed zijn gemaakt.
 
@@ -25,16 +27,9 @@ De parameters zijn:
 - Het type vragenlijst. (Waar/Niet waar of Multiple choice) -- wij hebben ervoor gekozen om alleen multiple choice te gebruiken
 
 ### Externe componenten
-Voor het creëeren van een trivia website zijn een aantal externe componenten benodigd.
-
-#### BootStrap:
-BootStrap is een framework wat ons in staat stelt om snel en simpel een website te creëeren.
-Het Framework biedt veel manieren om een pagina snel en professioneel op te maken.
-Voornamelijk is het framework handig om een standaard lay-out te maken voor elke pagina
-
-#### Foundation Framework
-Foundation framework is een handig framework waar wij gebruik van kunnen maken om onze lay-out te creëeren.
-[Foundation Framework](https://foundation.zurb.com/)
+We hebben niet gebruikt gemaakt van een framework aangezien we ervoor hebben gekozen om de website zelf te stylen.
+op deze manier hadden we meer ruimte om de site precies op te maken zoals wij wilden en ook orgineel te blijven.
+De site is nog steeds bruikbaar op de mobiel zonder gebruik te maken van een framework
 
 ### Concurrende bestaande websites
 Een welbekende trivia website is zonder twijfel kahoot.

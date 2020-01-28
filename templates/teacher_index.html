@@ -8,23 +8,22 @@
 
 Hallo ik ben een leraar
     <p> Maak een quiz aan</p>
-
+    <div class="accountfield">
      <form action="/" method="post">
         <div class="form-group">
             <input class="form-control" name="name" placeholder="Quiz name" type="text">
         </div>
-
+    <br>
     <form action="/" method="post">
         <div class="form-group">
             <input class="form-control" name="username" placeholder="username" type="text">
         </div>
-
-
+    <br>
     <form action="/" method="post">
         <div class="form-group">
-            <input class="form-control" name="questions" placeholder="Amount of questions" type="number" min="1" max="50">
+            <input class="form-control" name="questions" placeholder="Length Quiz" type="number" min="1" max="50">
         </div>
-
+    <br>
     <form action="/" method="post" onsubmit="function(event){ event.preventDefault();}">
         <div class="form-group">
             <select class="form-control" name="difficulty">
@@ -34,7 +33,7 @@ Hallo ik ben een leraar
                         <option value="hard">Hard</option>
             </select>
         </div>
-
+    <br>
     <form action="/" method="post" onsubmit="function(event){ event.preventDefault();}">
         <div class="form-group">
             <select class="form-control" name="category">
@@ -44,14 +43,16 @@ Hallo ik ben een leraar
                 {% endfor %}
             </select>
         </div>
-
+    <br>
     <form action="/" method="post" onsubmit="function(event){ event.preventDefault();}">
         <div class="form-group">
             <select class="form-control" name="type">
                 <option selected value="multiple">Multiple choice</option>
             </select>
+    <br>
         </div>
             <button class="btn btn-primary" type="submit">Create quiz</button>
+    </div>
     </form>
 
 {% endblock %}
