@@ -453,6 +453,10 @@ def search():
     if request.method == "POST":
 
         name = request.form.get("search")
+        quizes = db.execute("SELECT naam_quiz FROM teach_lijst")
+        if name not in quizes:
+            return render_template("search.html", error_message="quiz doesn't exist, try again")
+
         quiz_id= db.execute("SELECT quiz_id FROM teach_lijst WHERE naam_quiz=:name", name=name)
         session["quiz_id"] = quiz_id
         return redirect(url_for("quiz"))
