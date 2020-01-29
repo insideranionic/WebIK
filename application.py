@@ -67,7 +67,8 @@ def index():
 
     # Render student template if user is not a teacher
     else:
-        return render_template("student_index.html")
+        flash("Welcome back!")
+        return render_template("search.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -87,16 +88,10 @@ def login():
         role = request.form.get("role")
 
         if role == "teacher":
-            # Query database for teacher username
-            # rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
-            #                   username=request.form.get("username"))
             rows = selec_t()
             session["key"] = "teacher"
 
         else:
-            # Query database for student username
-            # rows = db.execute("SELECT * FROM student WHERE username = :username",
-            #                   username=request.form.get("username"))
             rows = selec_s()
             session["key"] = "student"
 
@@ -280,12 +275,10 @@ def quiz():
         answer = request.form.get("answer")
         question = request.form.get("question_hidden")
 
-        # -1 to retrieve index of next question
         new_question = int(question_value_dict[question]) + 1
 
         if new_question == len(question_value_dict) - 1:
 
-            # info = db.execute("SELECT naam_teach, naam_quiz, category FROM teach_lijst WHERE quiz_id=:quiz_id", quiz_id = quiz_id) #functie1
             info = info_teach(quiz_id)
             teacher_name= info["name"]
             quiz_name= info["quiz_naam"]

@@ -137,3 +137,87 @@ def res():
     else:
         result_sql = db.execute("SELECT username, result, quiz_name, category, date FROM student_results where teacher_name = :user_id", user_id=session["user"])
         return result_sql
+
+def check_login():
+
+    # Ensure username was submitted
+    if not request.form.get("username"):
+        return False
+
+    # Ensure password was submitted
+    elif not request.form.get("password"):
+        return False
+
+    # Ensure password was submitted
+    elif not request.form.get("password"):
+        return False
+
+    # ensure user submitted role
+    elif not request.form.get("role"):
+        return False
+
+    return True
+
+def create_quiz():
+
+    # Get desired information
+    name = request.form.get("name")
+    aantal_vragen = request.form.get("questions")
+    difficulty = request.form.get("difficulty")
+    category = request.form.get("category")
+    type_q = request.form.get("type")
+    username_teacher = request.form.get("username")
+
+    category_dict= {"History": 23, "Politics": 24, "Geography": 22}
+    difficulty_dict= {"easy": "easy", "medium": "medium", "hard": "hard"}
+    cat= category_dict[category]
+    diff= difficulty_dict[difficulty]
+
+    # dit fixt wat je boven bij quiz wou
+    main_api= "https://opentdb.com/api.php?"
+    url= main_api + urllib.parse.urlencode({'amount': aantal_vragen}) + "&" + urllib.parse.urlencode({'category': cat}) + "&" +  urllib.parse.urlencode({'difficulty': diff}) + "&" + urllib.parse.urlencode({'type': type_q})
+    quiz = requests.get(url).json()
+    all_questions  = (quiz['results'])
+
+    question_list = []
+    correct_answers = []
+    all_answer_sheets = []
+    x = 0
+
+    for x in range(len(all_questions)):
+        answer_question = []
+        answer_question = all_questions[x]['incorrect_answers']
+        answer_question.append(all_questions[x]['correct_answer'])
+        correct_answers.append(all_questions[x]['correct_answer'])
+        all_answer_sheets.append(answer_question)
+        question_list.append(all_questions[x]['question'])
+
+    all_answer_sheets = str(all_answer_sheets)
+    db.execute("INSERT INTO teach_lijst(naam_teach, naam_quiz, category, vragen_lijst, correct_answers, all_answer_sheets) VALUES(:username_teacher, :name, :category, :quiz, :correct_answers, :all_answer_sheets)",
+                username_teacher=username_teacher, name=name, category=category, quiz=question_list, correct_answers=correct_answers, all_answer_sheets=all_answer_sheets)
+    return
+
+def teach_select(quiz_id):
+    quiz_data= db.execute("SELECT * FROM teach_lijst WHERE quiz_id= :id", id = quiz_id)[0]
+    return quiz_data
+
+def update_t(passw):
+    db.execute("UPDATE Teacher SET hash = :new_password WHERE id = :user_id",
+                        user_id=session["user_id"], new_password=passw)
+    return
+
+
+def update_s(passw):
+    db.execute("UPDATE student SET hash = :new_password WHERE id = :user_id",
+            user_id=session["user_id"], new_password=passw)
+    return
+
+def selec_t():
+    rows = db.execute("SELECT * FROM Teacher WHERE username = :username",
+                  username=request.form.get("username"))
+    return rows
+
+def selec_s():
+    rows = db.execute("SELECT * FROM student WHERE username = :username",
+                      username=request.form.get("username"))
+    return rows
