@@ -96,11 +96,12 @@ form {
 footer {
   background-color: #FFD2D2;
   color: black;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 9%;
   border-top: 3px solid black;
+  margin-top: 50px;
 }
 
 .footer{
@@ -149,13 +150,14 @@ footer {
 
 .logo {
   top : 0.2%;
-  position: fixed;
+  position: absolute;
   left: 50%;
   transform: translate(-50%);
   font-size: 37px;
   text-shadow: 1px 1px #FF0000;
   display: block;
 }
+
 
 
 
@@ -312,13 +314,12 @@ footer {
 }
 
 .leaderboard{
-  text-align: center;
-  font-size: 100%;
+  font-size: 30px;
   text-align: center;
   margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
-  color:#FFD2D2;
+  color:black;
 }
 
 .accountfield button {
@@ -432,6 +433,24 @@ footer {
   border-radius: 40px 0px 40px 0px;
   width: 50%;
   height: 30%;
-  padding: 1%;
+  padding: 3%;
   background-color: #ddd;
+  overflow:scroll;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+#myTable {
+  table-layout: fixed;
+  width: 100% ;
+}
+#myTable td,
+#myTable th{
+  width: auto;
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+

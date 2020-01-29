@@ -4,6 +4,9 @@
 
     <head>
         <!-- Required meta tags -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <meta charset="utf-8">
         <link rel="stylesheet" href="static/style_home.css">
         <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
@@ -15,9 +18,8 @@
         {% if session.user_id %}
             <div class="navbar">
                 <a href="logout" >Logout</a>
-                <a href="change_password">Change<br>password</a>
+                <a href="change_password">password</a>
                 <div class="right">
-
                     {% if session.key == "teacher" %}
                     <a href="homepage_2">Make Quiz</a>
                     <a href="result">Results</a>
@@ -29,7 +31,7 @@
                 </div>
             </div>
 
-            <a class = "logo" href="homepage">Facta</a>
+            <a class = "logo" href="homepage">Fakta</a>
         {% else %}
             <div class="navbar">
                 <a href="login">Login</a>
@@ -38,7 +40,7 @@
                 <a href="homepage">Home</a>
             </div>
             </div>
-            <a class = "logo" href="homepage">Facta</a>
+            <a class = "logo" href="homepage">Fakta</a>
         {% endif %}
 
 
@@ -58,7 +60,7 @@
     </body>
     <footer>
         <div class = footer_space>
-            <p class = footer>Facta 2020</p>
+            <p class = footer>Fakta 2020</p>
             <p class= faq_link><a href = "FAQ">FAQ</a>
         </div>
     </footer>
