@@ -1,10 +1,10 @@
 # Facta
 
 ## Gemaakt door:
-Robin Bergman
-Ruben Curiël
-Mike Evertsen
-Merijn van der Leek
+-Robin Bergman
+-Ruben Curiël
+-Mike Evertsen
+-Merijn van der Leek
 
 ## Samenvatting
 
