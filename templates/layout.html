@@ -15,8 +15,9 @@
         {% if session.user_id %}
             <div class="navbar">
                 <a href="logout" >Logout</a>
+                <a href="change_password">Change<br>password</a>
                 <div class="right">
-                    <a href="change_password">Change password</a>
+
                     {% if session.key == "teacher" %}
                     <a href="homepage_2">Make Quiz</a>
                     <a href="result">Results</a>
@@ -57,7 +58,6 @@
     </body>
     <footer>
         <div class = footer_space>
-            <p class = footer_right>Contact: facta@gmail.com</p>
             <p class = footer>Facta 2020</p>
             <p class= faq_link><a href = "FAQ">FAQ</a>
         </div>
