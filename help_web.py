@@ -39,6 +39,7 @@ def to_csv(i):
     i = i.replace("]","");
     i = i.replace("'","");
     i = i.replace(" ","");
+    i = convert(i)
     return i
 
 def quiz_list():
